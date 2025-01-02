@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Star Rating</title>
+  <style>
+    .stars {
+      display: flex;
+      cursor: pointer;
+    }
+    .star {
+      font-size: 2rem;
+      color: gray;
+      transition: color 0.3s;
+    }
+    .star.filled {
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rate Us</h1>
+  <div class="stars" id="ratingStars">
+    <span class="star" data-value="1">★</span>
+    <span class="star" data-value="2">★</span>
+    <span class="star" data-value="3">★</span>
+    <span class="star" data-value="4">★</span>
+    <span class="star" data-value="5">★</span>
+  </div>
+  <p id="ratingMessage"></p>
+
+  <script>
+    // Select all stars and message element
+    const stars = document.querySelectorAll(".star");
+    const ratingMessage = document.getElementById("ratingMessage");
+
+    let currentRating = 0; // Variable to store the current rating
+
+    // Function to update the star colors
+    function updateStars(rating) {
+      stars.forEach((star, index) => {
+        if (index < rating) {
+          star.classList.add("filled");
+        } else {
+          star.classList.remove("filled");
+        }
+      });
+    }
+
+    // Add event listeners to stars
+    stars.forEach((star) => {
+      // Highlight stars on hover
+      star.addEventListener("mouseover", () => {
+        const rating = parseInt(star.getAttribute("data-value"));
+        updateStars(rating);
+      });
+
+      // Restore stars after hover ends
+      star.addEventListener("mouseout", () => {
+        updateStars(currentRating);
+      });
+
+      // Set rating on click
+      star.addEventListener("click", () => {
+        currentRating = parseInt(star.getAttribute("data-value"));
+        ratingMessage.textContent = `You rated ${currentRating} star(s).`;
+      });
+    });
+  </script>
+</body>
+</html>

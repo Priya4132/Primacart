@@ -1,30 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div id="register-nav"> 
-    </div>
-<!-- <a href="./wishlist.html"><img src="./Images/wishlist (2).png" alt="wishlist Image" width="30px"></a>
- 
-   
-
-<img src="./Images/WhatsApp_Image_2024-12-30_at_6.04.25_PM-removebg-preview.png" alt="" width="30px"> <input type="search" placeholder="Search for Products">
- -->
-
-<!-- footer section -->
-
-<div id="footer-links"> 
-    <div class="footer-links1">
+const footer=()=>{
+    let card=`
+    <div id="footer-links"> <div class="footer-links1">
     <h2>About US</h2>
     <a href="./index.html">Get to Know PrimaCart</a>
     <a href="./index.html">Charitable Contributions</a>
     <a href="./index.html">Company Information</a>
     <a href="./index.html">Careers</a>
-    <a href="./index.html">Costco Blog</a>
+    <a href="./index.html">PrimaCart Blog</a>
 
     </div>
     <div class="footer-links1">
@@ -38,7 +20,7 @@
         </div>
         <div class="footer-links1">
             <h2>Customer Service</h2>
-            <a href="./index.html">Costco Customer Service</a>
+            <a href="./index.html">PrimaCart Customer Service</a>
             <a href="./index.html">Order Status</a>
             <a href="./index.html">Shipping</a>
             <a href="./index.html">Returns and Exchanges</a>
@@ -50,11 +32,12 @@
                 <a href="./index.html">Find a Warehouse</a>
                 <a href="./index.html">Special Events</a>
                 <a href="./index.html">Hours and Holiday Closures</a>
-                <a href="./index.html">CostcoGrocery</a>
+                <a href="./index.html">PrimaCartGrocery</a>
                 <a href="./index.html">Grocery by Instacart</a>
             
-                </div>
-</div>
-<img src="https://cdn.bfldr.com/56O3HXZ9/at/wv95xq2fgm6v76sqz7zn4sr/d_25w05040_homepage_new_year_animation.gif?auto=webp&format=gif" alt="">
-</body>
-</html>
+                </div> </div>`
+
+                document.getElementById("footer").innerHTML=card;
+}
+
+footer();

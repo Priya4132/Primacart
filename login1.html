@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin    Login & Signup Page</title>
+    <link rel="stylesheet" href="./styles/login1.css" />
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-page-logo">
+           <a href="./index.html"> <img src="./Images/WhatsApp_Image_2024-12-30_at_6.04.25_PM-removebg-preview.png" alt="primacart-logo" class="logo" /></a>
+        </div>
+        <div class="title-text">
+            <div class="title login">Login</div>
+            <div class="title signup">Create Account</div>
+        </div>
+        <div class="form-container">
+            <div class="slide-controls">
+                <input type="radio" name="slide" id="login" checked />
+                <input type="radio" name="slide" id="signup" />
+                <label for="login" class="slide login">Login</label>
+                <label for="signup" class="slide signup">Signup</label>
+                <div class="slider-tab"></div>
+            </div>
+            <div class="form-inner">
+                <form action="#" id ="form" class="login">
+                    <div class="field">
+                        <p>Email Address</p>
+                        <!-- Paragraph before the input -->
+                        <input type="text" placeholder="Enter your email" required id="login-email" />
+                    </div>
+                    <div class="field">
+                        <p>Password</p>
+                        <!-- Paragraph before the input -->
+                        <input type="password" placeholder="Enter your password" required id="login-password" />
+                    </div>
+                    <br />
+                    <div class="pass-link"><a href="#">Forgot password?</a></div>
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Login" id="login-submit" />
+                    </div>
+                    <div class="signup-link">
+                        Want to create account?<br />
+                        <a href="">Signup here</a>
+                    </div>
+                </form>
+                <form action="#" class="signup">
+                    <div class="field">
+                        <p>Name</p>
+                        <!-- Paragraph before the input -->
+                        <input type="text" placeholder="Enter your name" required id="signup-name" />
+                    </div>
+                    <div class="field">
+                        <p>Email Address</p>
+                        <!-- Paragraph before the input -->
+                        <input type="text" placeholder="Enter your email" required id="signup-email" />
+                    </div>
+                    <div class="field">
+                        <p>Password</p>
+                        <!-- Paragraph before the input -->
+                        <input type="password" placeholder="Enter your password" required id="signup-password" />
+                    </div>
+                    <br />
+                    <div class="field btn">
+                        <div class="btn-layer"></div>
+                        <input type="submit" value="Signup" required id="signup-submit" />
+                    </div>
+                    <div class="signup-link">
+                        Already have an account?<br />
+                        <a href="">Login now</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./scripts/login1.js"></script>
+<!-- Done -->
+
+</html>

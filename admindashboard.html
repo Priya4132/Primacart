@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/admin.css">
+</head>
+<body>
+    <h1>Welcome to the Admin Dashboard</h1>
+    <div id="logout">
+   
+    <h4 id="user-name"></h4>
+  <button id="logoutButton">Logout</button>
+</div>
+
+<div id="addProduct"> 
+    <h2>Add Product</h2>
+    <form action="" id="addproductform">
+        <input type="text" id="product_name" placeholder="Product Name">
+        <input type="text" id="price" placeholder="Product Price">
+        <input type="number" id="ratings" placeholder="Ratings">
+        <input type="number" id="stocks" placeholder="Stocks">
+        <input type="text" name="" id="product_image" placeholder="Enter product image url">
+        <select name="" id="category">
+            <option value="">Select Product Category</option>
+            <option value="furniture">Furniture</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+        </select>
+        <input type="submit" id="submit" value="Add Product">
+    </form>
+</div>
+
+<select name="" id="filterbycategory">
+    <option value="">Filter By Category</option>
+    <option value="clothing">Filter By Clothing</option>
+    <option value="electronics">Filter By Electronics</option>
+    <option value="furniture">Filter By Furniture</option>
+</select>
+<div id="cont"></div>
+</body>
+<script src="./scripts/admindashbaord.js"></script>
+</html>
