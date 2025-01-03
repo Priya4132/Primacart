@@ -125,3 +125,10 @@
     gap:20px;
 }
 
+
+
+/* filtering option  */
+ #filterbyprice{
+    display: none;
+
+ }

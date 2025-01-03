@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             let res=await  fetch("http://localhost:3200/customers");
             let data= await res.json();
             let user=data.filter((el,i)=> el.email==signup_email);
+            console.log(user)
             if(user.length!=0){
              alert("User Already Registered , Please login");
             //  window.location.href="login.html"
@@ -92,11 +93,13 @@ document.addEventListener("DOMContentLoaded", () => {
         try{
             let res=await  fetch("http://localhost:3200/customers");
             let data= await res.json();
-            let user=data.filter((el,i)=> el.email==login_email);
+           // console.log(data)
+            let user=data.filter((el,i)=> el.signup_email==login_email);
+            //console.log(user[0])
             //check if email is present or not
             if(user.length!=0){
                 //now check for password
-                if(user[0].password==login_pass){
+                if(user[0].signup_pass==login_pass){
                     alert("Login SuccessFul");
                     localStorage.setItem("customersData", JSON.stringify(user[0]));//saving customers data in local storage
     window.location.href="index.html";//redinirecting to customer page
@@ -104,7 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
                 else{//
     alert("Wrong Password, Please login with Correct password");
-    window.location.href="login.html"
+   window.location.href="login1.html"
                 }
             }
             //if customer email is not present in DB
@@ -112,7 +115,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 else {
                     // user not present
                     alert("User not registred, Please signup....");
-                    // window.location.href = "signup.html"
+                     window.location.href = "login1.html"
                     
                   }
         

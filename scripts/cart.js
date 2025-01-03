@@ -1,4 +1,24 @@
+window.onload = async () => {
+  // let data=await getFurnitureDetails();
+  let customerData = JSON.parse(localStorage.getItem("customersData"));
+  console.log(customerData);
+  let customerId = null;
+  if (customerData != null) {
+      customerId = customerData.id;
+  }
+  let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
+  console.log("cartPerCustomer=", cartPerCustomer);
+  let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
+  console.log("cartForThisCustomer=", cartForThisCustomer);
+  if (cartForThisCustomer == undefined || cartPerCustomer == null) {
+      alert("No products in the Cart!")
+  } else {
+      let cartArray = cartForThisCustomer.cartArray;
+      console.log("cartArray=", cartArray);
+      showCartDetails(cartArray);
+  }
 
+}
 
 
 
@@ -265,10 +285,10 @@
 
 
 // priya version with checkout
-window.onload = async () => {
-  let cartArray = JSON.parse(localStorage.getItem("cartProducts"));
-  showCartDetails(cartArray);
-};
+// window.onload = async () => {
+//   let cartArray = JSON.parse(localStorage.getItem("cartProducts"));
+//   showCartDetails(cartArray);
+// };
 
 // JS code for showing product details
 function showCartDetails(arr) {
@@ -316,8 +336,15 @@ function showCartDetails(arr) {
     let removecartbtn = document.createElement("button");
     removecartbtn.textContent = "Remove From Cart";
 
-    card.append(product_image, specificationdiv, removecartbtn);
+    let checkoutbtn=document.createElement("button");
+    checkoutbtn.textContent = "Checkout";
+    checkoutbtn.addEventListener("click", function(){
+      checkoutFn(item);
+    })
+
+    card.append(product_image, specificationdiv, removecartbtn,checkoutbtn);
     cart_cont.append(card);
+    cart_cont.appendChild(checkoutbtn);
 
     // Decrease Quantity
     decreaseBtn.addEventListener("click", function () {
@@ -366,7 +393,7 @@ function showCartDetails(arr) {
   checkoutBtn.style.border = "none";
   checkoutBtn.style.cursor = "pointer";
 
-  cart_cont.appendChild(checkoutBtn);
+  // cart_cont.appendChild(checkoutbtn);
 
   // Checkout Functionality
   checkoutBtn.addEventListener("click", function () {
@@ -380,3 +407,46 @@ function showCartDetails(arr) {
   });
 }
 
+
+
+function checkoutFn(product){
+
+  let customerData = JSON.parse(localStorage.getItem("customersData"));
+  console.log(customerData);
+  let customerId = null;
+  if (customerData != null) {
+      customerId = customerData.id;
+      console.log("customerId=", customerId);
+  }
+  let orderPerCustomer = JSON.parse(localStorage.getItem("orderCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
+  console.log("orderPerCustomer=", orderPerCustomer);
+  let orderForThisCustomer = orderPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
+  console.log("orderForThisCustomer=", orderForThisCustomer);
+  if (orderForThisCustomer == null || orderForThisCustomer == undefined) {
+      let orderArray = [];
+      let orderId=Date.now();
+      // console.log(orderId)
+      orderArray.push(product);
+      let orderForThisCustomer = {
+        "orderId":orderId,
+          "customerId": customerId,
+          "orderArray": orderArray
+      };
+      orderPerCustomer.push(orderForThisCustomer);
+      localStorage.setItem("orderPerCustomer", JSON.stringify(orderPerCustomer));
+      alert("Product added to the order");
+  } else {
+      let orderArray = orderForThisCustomer.orderArray;
+      console.log("orderArray=", orderArray);
+      let matchedProduct = cartArray.filter((ele, i) => ele.id == product.id);
+      console.log("matchedProduct=", matchedProduct);
+      if (matchedProduct.length != 0) {
+          alert("Product already present in the Order");
+      } else {
+          orderArray.push(product);
+          localStorage.setItem("orderPerCustomer", JSON.stringify(orderPerCustomer));
+          alert("Product added to the order");
+      }
+  }
+  
+}
