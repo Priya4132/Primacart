@@ -1,21 +1,34 @@
+//logout button
+
+let customerData = JSON.parse(localStorage.getItem("customersData"));
+
+document.getElementById("logout").addEventListener("click", function () {
+  localStorage.removeItem("customersData");
+  alert("Redirecting to Home Page....");
+  window.location.href = "index.html";
+});
+
+
+
+
 window.onload = async () => {
   // let data=await getFurnitureDetails();
   let customerData = JSON.parse(localStorage.getItem("customersData"));
   console.log(customerData);
   let customerId = null;
   if (customerData != null) {
-      customerId = customerData.id;
+    customerId = customerData.id;
   }
   let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
   console.log("cartPerCustomer=", cartPerCustomer);
   let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
   console.log("cartForThisCustomer=", cartForThisCustomer);
   if (cartForThisCustomer == undefined || cartPerCustomer == null) {
-      alert("No products in the Cart!")
+    alert("No products in the Cart!")
   } else {
-      let cartArray = cartForThisCustomer.cartArray;
-      console.log("cartArray=", cartArray);
-      showCartDetails(cartArray);
+    let cartArray = cartForThisCustomer.cartArray;
+    console.log("cartArray=", cartArray);
+    showCartDetails(cartArray);
   }
 
 }
@@ -53,7 +66,7 @@ window.onload = async () => {
 //           price.textContent=`Price:${item.price}`;
 //           let ratings=document.createElement("h4");
 //           ratings.textContent=`Ratings:${item.ratings}`;
-       
+
 //           let product_image=document.createElement("img");
 //           product_image.src=item.product_image;
 //           let specificationdiv=document.createElement("div");
@@ -73,11 +86,11 @@ window.onload = async () => {
 //         localStorage.removeItem(cartArray);
 //         // location.reload(); // Refresh to reflect change
 //      })
-     
-  
-       
+
+
+
 //       //    cartArray.splice(i, 1);
-        
+
 
 
 //       })
@@ -290,6 +303,31 @@ window.onload = async () => {
 //   showCartDetails(cartArray);
 // };
 
+
+// let paymentLabel = document.createElement("h3");
+// paymentLabel.textContent = "Select Payment Method";
+
+// let paymentOptions = ["Credit/Debit Card", "Net Banking", "Cash on Delivery"];
+// let selectedPaymentMethod = "";
+
+// paymentOptions.forEach((method) => {
+//   let option = document.createElement("div");
+//   let radio = document.createElement("input");
+//   radio.type = "radio";
+//   radio.name = "paymentMethod";
+//   radio.value = method;
+
+//   radio.addEventListener("click", function () {
+//     selectedPaymentMethod = method;
+//   });
+
+//   let label = document.createElement("label");
+//   label.textContent = method;
+
+//   option.append(radio, label);
+//   paymentModal.appendChild(option);
+// })
+
 // JS code for showing product details
 function showCartDetails(arr) {
   let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
@@ -297,9 +335,10 @@ function showCartDetails(arr) {
   cart_cont.innerHTML = "";
 
   let totalPrice = 0;
-
   arr.map((item, i) => {
-    totalPrice += item.price * item.quantity; // Calculate total price
+
+    totalPrice = totalPrice + item.price; // Calculate total price
+
 
     let card = document.createElement("div");
     let product_name = document.createElement("h4");
@@ -330,21 +369,17 @@ function showCartDetails(arr) {
     product_image.src = item.product_image;
 
     let specificationdiv = document.createElement("div");
-    specificationdiv.append(product_name, price, ratings, quantityDiv);
+    specificationdiv.append(product_name, price, ratings, quantityDiv, totalPrice);
+    console.log(totalPrice)
 
     // Remove from Cart Button
     let removecartbtn = document.createElement("button");
     removecartbtn.textContent = "Remove From Cart";
 
-    let checkoutbtn=document.createElement("button");
-    checkoutbtn.textContent = "Checkout";
-    checkoutbtn.addEventListener("click", function(){
-      checkoutFn(item);
-    })
 
-    card.append(product_image, specificationdiv, removecartbtn,checkoutbtn);
+    card.append(product_image, specificationdiv, removecartbtn);
     cart_cont.append(card);
-    cart_cont.appendChild(checkoutbtn);
+    // cart_cont.appendChild(checkoutbtn);
 
     // Decrease Quantity
     decreaseBtn.addEventListener("click", function () {
@@ -378,75 +413,138 @@ function showCartDetails(arr) {
     });
   });
 
+  let address = document.getElementById("address")
+  const addressInput = document.createElement('input');
+  addressInput.type = 'text';
+  addressInput.placeholder = 'Enter Address';
+  addressInput.name = 'address';
+  addressInput.style.margin = '5px';
+  addressInput.required = true;
+
+
+  // Create pincode input field
+  const pincodeInput = document.createElement('input');
+  pincodeInput.type = 'text';
+  pincodeInput.placeholder = 'Enter Pincode';
+  pincodeInput.name = 'pincode';
+  pincodeInput.style.margin = '5px';
+  pincodeInput.required = true;
+  address.append(addressInput, pincodeInput)
+
+
+  // catching payment div
+  let payment = document.getElementById("payment");
+
+  let paymentLabel = document.createElement("h3");
+  paymentLabel.textContent = "Select Payment Method";
+
+  let paymentOptions = ["Credit/Debit Card", "UPI", "Net Banking", "Cash on Delivery"];
+  let selectedPaymentMethod = "";
+
+  paymentOptions.forEach((method) => {
+    let option = document.createElement("div");
+    let radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "paymentMethod";
+    radio.value = method;
+
+    radio.addEventListener("click", function () {
+      selectedPaymentMethod = method;
+    });
+
+    let label = document.createElement("label");
+    label.textContent = method;
+
+    option.append(radio, label);
+    payment.appendChild(option);
+  })
+  payment.appendChild(paymentLabel)
+
+
+  let checkoutbtn = document.getElementById("checkoutbtn")
+  checkoutbtn.addEventListener("click", function () {
+    let addressfilled = addressInput.value
+    let pincodefilled = pincodeInput.value; // Get the pincode dynamically
+    //  let cartArray=JSON.parse( localStorage.getItem("cartProducts"));
+    checkoutFn(selectedPaymentMethod, addressfilled, pincodefilled);
+  })
   // Display total price
   let totalDiv = document.createElement("div");
   totalDiv.textContent = `Total Price: ₹${totalPrice}`;
   cart_cont.appendChild(totalDiv);
 
   // Checkout Button
-  let checkoutBtn = document.createElement("button");
-  checkoutBtn.textContent = "Checkout";
-  checkoutBtn.style.marginTop = "20px";
-  checkoutBtn.style.padding = "10px 20px";
-  checkoutBtn.style.backgroundColor = "green";
-  checkoutBtn.style.color = "white";
-  checkoutBtn.style.border = "none";
-  checkoutBtn.style.cursor = "pointer";
+  //   let checkoutBtn = document.createElement("button");
+  //   checkoutBtn.textContent = "Checkout";
+  //   checkoutBtn.style.marginTop = "20px";
+  //   checkoutBtn.style.padding = "10px 20px";
+  //   checkoutBtn.style.backgroundColor = "green";
+  //   checkoutBtn.style.color = "white";
+  //   checkoutBtn.style.border = "none";
+  //   checkoutBtn.style.cursor = "pointer";
 
-  // cart_cont.appendChild(checkoutbtn);
+  //   // cart_cont.appendChild(checkoutbtn);
 
-  // Checkout Functionality
-  checkoutBtn.addEventListener("click", function () {
-    if (cartArray.length === 0) {
-      alert("Your cart is empty. Add items to checkout!");
-    } else {
-      alert(`Checkout Successful! Total Amount Paid: ₹${totalPrice}`);
-      localStorage.removeItem("cartProducts"); // Clear cart
-      showCartDetails([]); // Refresh cart
-    }
-  });
+  //   // Checkout Functionality
+  //   checkoutBtn.addEventListener("click", function () {
+  //     if (cartArray.length === 0) {
+  //       alert("Your cart is empty. Add items to checkout!");
+  //     } else {
+  //       alert(`Checkout Successful! Total Amount Paid: ₹${totalPrice}`);
+  //       localStorage.removeItem("cartProducts"); // Clear cart
+  //       showCartDetails([]); // Refresh cart
+  //     }
+  //   });
 }
 
 
-
-function checkoutFn(product){
-
+function checkoutFn(selectedPaymentMethod, addressfilled, pincodefilled) {
   let customerData = JSON.parse(localStorage.getItem("customersData"));
   console.log(customerData);
   let customerId = null;
   if (customerData != null) {
-      customerId = customerData.id;
-      console.log("customerId=", customerId);
+    customerId = customerData.id;
+    console.log("customerId=", customerId);
   }
-  let orderPerCustomer = JSON.parse(localStorage.getItem("orderCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
+  if (selectedPaymentMethod === "") {
+    alert("Please select a payment method.");
+    return;
+  }
+
+  let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer"));
+  let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
+  let cartArray = cartForThisCustomer.cartArray;
+  //console.log("hi",cartArray)
+  let orderPerCustomer = JSON.parse(localStorage.getItem("orderPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
   console.log("orderPerCustomer=", orderPerCustomer);
-  let orderForThisCustomer = orderPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-  console.log("orderForThisCustomer=", orderForThisCustomer);
-  if (orderForThisCustomer == null || orderForThisCustomer == undefined) {
-      let orderArray = [];
-      let orderId=Date.now();
-      // console.log(orderId)
-      orderArray.push(product);
-      let orderForThisCustomer = {
-        "orderId":orderId,
-          "customerId": customerId,
-          "orderArray": orderArray
-      };
-      orderPerCustomer.push(orderForThisCustomer);
-      localStorage.setItem("orderPerCustomer", JSON.stringify(orderPerCustomer));
-      alert("Product added to the order");
-  } else {
-      let orderArray = orderForThisCustomer.orderArray;
-      console.log("orderArray=", orderArray);
-      let matchedProduct = cartArray.filter((ele, i) => ele.id == product.id);
-      console.log("matchedProduct=", matchedProduct);
-      if (matchedProduct.length != 0) {
-          alert("Product already present in the Order");
-      } else {
-          orderArray.push(product);
-          localStorage.setItem("orderPerCustomer", JSON.stringify(orderPerCustomer));
-          alert("Product added to the order");
-      }
+  let ordersForThisCustomer = orderPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
+  console.log("orderForThisCustomer=", ordersForThisCustomer);
+  if (ordersForThisCustomer == null || ordersForThisCustomer == undefined) {
+    ordersForThisCustomer = {
+      "customerId": customerId,
+      "orders": []
+    };
+    orderPerCustomer.push(ordersForThisCustomer);
   }
-  
+  let orderId = Date.now();
+  let totalPrice = cartArray.reduce((sum, product) => {
+    return sum + parseFloat(product.price);
+  }, 0);
+
+  let order = {
+    "orderId": orderId,
+    "orderedProducts": cartArray,
+    "address": addressfilled,
+    "pincode": pincodefilled,
+    "paymentMethod": selectedPaymentMethod,
+    "totalPrice": totalPrice,
+    "dateAndTime": new Date()
+  }
+  ordersForThisCustomer.orders.push(order);
+  localStorage.setItem("orderPerCustomer", JSON.stringify(orderPerCustomer));
+  // alert("Product added to the order");
+  alert(`Checkout Successful! Total Amount Paid: ₹${totalPrice} Payment Method is ${selectedPaymentMethod}, Your Order will be deleivered at this Address: ${addressfilled},${pincodefilled}`);
+  localStorage.removeItem("cartPerCustomer");//removing products from cart in localStorage
+  showCartDetails([]); // Refresh cart
+
 }

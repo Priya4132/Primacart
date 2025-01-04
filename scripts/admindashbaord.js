@@ -1,18 +1,24 @@
 // Redirect to login if credentials are not found
-if (!localStorage.getItem("username") || !localStorage.getItem("password")) {
+// if (!localStorage.getItem("username") || !localStorage.getItem("password")) {
+//     alert("You are not logged in!");
+//     window.location.href = "index.html";
+//   }
+
+
+  let admin=JSON.parse(localStorage.getItem("adminData"));
+  if(!admin){
     alert("You are not logged in!");
     window.location.href = "index.html";
   }
 
-
   document.getElementById(
     "user-name"
-  ).textContent = `Welcome, ${localStorage.getItem("username")}`;
+  ).textContent = `Welcome, ${admin.adminName}`;
 
   // Handle logout
   document.getElementById("logoutButton").addEventListener("click", () => {
-    localStorage.removeItem("username"); // Remove username
-    localStorage.removeItem("password"); // Remove password
+    localStorage.removeItem("adminData"); // Remove username
+    
     alert("You have been logged out.");
     window.location.href = "index.html"; // Redirect to login page
   });

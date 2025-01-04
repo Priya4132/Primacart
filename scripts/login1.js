@@ -98,6 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
             //console.log(user[0])
             //check if email is present or not
             if(user.length!=0){
+
+                if(user[0].signup_email== "admin@gmail.com"  ){
+                    // window.location.href="admindashboard.html";
+                    let adminEmail=user[0].signup_email;
+                    let adminpass=user[0].signup_pass;
+                    let adminName=user[0].signup_name
+                    // console.log(adminpass)
+                    // console.log(adminEmail)
+                    let adminData={adminEmail,adminpass,adminName}
+                    window.location.href="admindashboard.html"
+                    localStorage.setItem("adminData",JSON.stringify(adminData));
+                    return
+                }
                 //now check for password
                 if(user[0].signup_pass==login_pass){
                     alert("Login SuccessFul");

@@ -1,6 +1,11 @@
 #footer{
     /* border: 1px solid black;
     margin:auto  */
+   bottom:0;
+   
+   /* position:fixed; */
+   width: 100%;
+   
 }
 
 #footer-links{

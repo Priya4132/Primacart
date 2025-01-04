@@ -25,11 +25,11 @@ nextButton.addEventListener('click', () => {
 
 // const { json } = require("body-parser");
 
-let adminloginbtn = document.getElementById("adminloginbtn");
-adminloginbtn.addEventListener("click", function () {
-    let adminform = document.getElementById("admin-form")
-    adminform.style.display = "flex";//catching admin login form
-});
+// let adminloginbtn = document.getElementById("adminloginbtn");
+// adminloginbtn.addEventListener("click", function () {
+//     let adminform = document.getElementById("admin-form")
+//     adminform.style.display = "flex";//catching admin login form
+// });
 
 // close modal
 let closemodal = document.getElementById("close_modal");
@@ -92,15 +92,19 @@ clothing_img.addEventListener("click", async function () {
         if(filterbyprice.value=="1 to 4999"){
             let data = await getClothingDetails();
             let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>=1 && el.price <=4999));
-                console.log(filteredData)
+            data=[...filteredData]  ; //making copy of filtered Data
+            
+            // console.log(filteredData)
                 showClothingDetails(filteredData);
+                data=[...filteredData]  ; //making copy of filtered Data
             
             }
           else  if(filterbyprice.value==" 5000 to 19999"){
                 let data = await getClothingDetails();
                 let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>=5000 && el.price <=20000));
-                    console.log(filteredData)
+                    // console.log(filteredData)
                     showClothingDetails(filteredData);
+                    data=[...filteredData]  ; //making copy of filtered Data
                 
                 }
 
@@ -108,14 +112,16 @@ clothing_img.addEventListener("click", async function () {
                     else if(filterbyprice.value=="20000 to 39999"){
                         let data = await getClothingDetails();
                         let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>20000 && el.price <=39999));
-                            console.log(filteredData)
+                            // console.log(filteredData)
                             showClothingDetails(filteredData);
+                            data=[...filteredData]  ; //making copy of filtered Data
                     }
                     else{
                         let data = await getClothingDetails();
                         let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>40000 ));
-                            console.log(filteredData)
+                            // console.log(filteredData)
                             showClothingDetails(filteredData);   
+                            data=[...filteredData]  ; //making copy of filtered Data
                     }
 
 
@@ -360,15 +366,17 @@ electronics_img.addEventListener("click", async function () {
         if(filterbyprice.value=="1 to 4999"){
             let data = await getElectronicsDetails();
             let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>=1 && el.price <=4999));
-                console.log(filteredData)
+                // console.log(filteredData)
                 showElectronicsDetails(filteredData);
+                data=[...filteredData]  ; //making copy of filtered Data
             
             }
           else  if(filterbyprice.value==" 5000 to 19999"){
                 let data = await getElectronicsDetails();
                 let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>=5000 && el.price <=20000));
-                    console.log(filteredData)
+                    // console.log(filteredData)
                     showElectronicsDetails(filteredData);
+                    data=[...filteredData]  ; //making copy of filtered Data
                 
                 }
 
@@ -376,14 +384,16 @@ electronics_img.addEventListener("click", async function () {
                     else if(filterbyprice.value=="20000 to 39999"){
                         let data = await getElectronicsDetails();
                         let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>20000 && el.price <=39999));
-                            console.log(filteredData)
+                            // console.log(filteredData)
                             showElectronicsDetails(filteredData);
+                            data=[...filteredData]  ; //making copy of filtered Data
                     }
                     else{
                         let data = await getElectronicsDetails();
                         let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>40000 ));
-                            console.log(filteredData)
+                            // console.log(filteredData)
                             showElectronicsDetails(filteredData);   
+                            data=[...filteredData]  ; //making copy of filtered Data
                     }
 
 
@@ -740,41 +750,73 @@ function showElectronicsDetails(arr) {
 let furniture_img = document.getElementById("furniture_img");
 furniture_img.addEventListener("click", async function () {
 
+
+//sort 
+
+
+
+
+//filter by price
     let filterbyprice=document.getElementById("filterbyprice");
     filterbyprice.style.display="flex";
     filterbyprice.addEventListener("change", async function(){
         if(filterbyprice.value=="1 to 4999"){
-            let data = await getFurnitureDetails();
-            let filteredData=data.filter((el,i)=> el.category=="furniture" && (el.price>=1 && el.price <=4999));
-                console.log(filteredData)
+            // let data = await getFurnitureDetails();
+            let filteredData=data.filter((el,i)=>el.price>=1 && el.price <=4999);
+                // console.log(filteredData)
                 showFurnitureDetails(filteredData);
+                data=[...filteredData]  ; //making copy of filtered Data
             }
            else if(filterbyprice.value==" 5000 to 19999"){
                 let data = await getFurnitureDetails();
-                let filteredData=data.filter((el,i)=> el.category=="furniture" && (el.price>=5000 && el.price <=20000));
-                    console.log(filteredData)
+                let filteredData=data.filter((el,i)=>el.price>=5000 && el.price <=20000);
+                    // console.log(filteredData)
                     showFurnitureDetails(filteredData);
+                    // data=[...filteredData]  ; //making copy of filtered Data
+                    localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
                 
                 }
 
 
                     else if(filterbyprice.value=="20000 to 39999"){
                         let data = await getFurnitureDetails();
-                        let filteredData=data.filter((el,i)=> el.category=="furniture" && (el.price>20000 && el.price <=39999));
-                            console.log(filteredData)
+                        let filteredData=data.filter((el,i)=> el.price>20000 && el.price <=39999);
+                            // console.log(filteredData)
                             showFurnitureDetails(filteredData);
+                            // data=[...filteredData]  ; //making copy of filtered Data
+                            localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
                     }
                     else{
                         let data = await getFurnitureDetails();
-                        let filteredData=data.filter((el,i)=> el.category=="furniture" && (el.price>40000 ));
-                            console.log(filteredData)
-                            showFurnitureDetails(filteredData);   
+                        let filteredData=data.filter((el,i)=>  el.price>40000 );
+                            // console.log(filteredData)
+                            showFurnitureDetails(filteredData);  
+                            // data=[...filteredData]  ; //making copy of filtered Data 
+                            localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
                     }
 
 
 
 
 });
+// sort by price
+let sortbyprice=document.getElementById("sortbyprice");
+sortbyprice.style.display="flex";
+sortbyprice.addEventListener("change",  async function(){
+    // let data = await getFurnitureDetails();
+    let data=JSON.parse(localStorage.getItem("FilterbyPrice"));
+    // localStorage.removeItem("FilterbyPrice")
+ if(sortbyprice.value==="htl"){
+    
+     data.sort((a,b)=> b.price-a.price);
+     showFurnitureDetails(data);
+     console.log("clicked")//
+ }
+ else{
+     data.sort((a,b)=> a.price-b.price);
+     showFurnitureDetails(data);
+ }
+})
             
                
                // let filteredprice=filteredData.filter((ele,i)=> ele.price>"10000")
@@ -1291,3 +1333,6 @@ function addWishlist(product) {
 //         furniture_cont.append(card);
 //     });
 // }
+
+
+// sortby price function

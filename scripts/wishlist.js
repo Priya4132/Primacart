@@ -1,6 +1,15 @@
+// import { logout } from "./scripts/logout.js";
 
+//logout button
 
+let customerData = JSON.parse(localStorage.getItem("customersData"));
 
+    document.getElementById("logout").addEventListener("click", function () {
+        localStorage.removeItem("customersData");
+        alert("Redirecting to Home Page....");
+        window.location.href = "index.html";
+      });
+    
 
 
 
