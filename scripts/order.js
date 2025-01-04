@@ -43,7 +43,7 @@ window.onload = async () => {
             let elementOrderDate = document.createElement("h3");
             elementOrderDate.textContent = `Ordered on date: ${dateAndTime}`;
             let elementTotalPrice = document.createElement("h3");
-            elementTotalPrice.textContent = `Total amount paid = ${totalPrice}, using payment mode: ${paymentMethod}`;
+            elementTotalPrice.textContent = `Total amount paid = ₹${totalPrice}, using payment mode: ${paymentMethod}`;
             let elementOrderDeliveryDetails = document.createElement("h3");
             elementOrderDeliveryDetails.textContent = `Your Order will be delivered at this Address:${address}.${pincode}`;
             ordersDiv.append(elementOrderTitle, elementOrderDate, elementTotalPrice, elementOrderDeliveryDetails);
@@ -66,7 +66,7 @@ function showOrderDetails(arr) {
         let product_name = document.createElement("h4");
         product_name.textContent = item.product_name;
         let price = document.createElement("h4");
-        price.textContent = `Price:${item.price}`;
+        price.textContent = `Price:₹${item.price}`;
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings:${item.ratings}⭐`;
 

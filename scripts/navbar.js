@@ -24,10 +24,10 @@ const navbar=()=>{
 
     <div id="navbar-links">
    
-       <a href="./login1.html" ><img src="./Images/profile-52e0dc.svg" alt="" width="45px"></a>
-       <a href="./wishlist.html"><img src="./Images/wishlist (2).png" alt="wishlist Image" width="40px"></a>
-       <a href="./cart.html" font-size="100px"> <img src="./Images/download-removebg-preview.png"  width="40px" alt=""></a>
-       <a href="./order.html" ><img src="./Images/orders.png" alt="" width="40px"></a>
+       <a href="./login1.html" ><img src="./Images/profile-52e0dc.svg" alt="loginicon" ></a>
+       <a href="./wishlist.html"><img src="./Images/wishlist (2).png" alt="wishlist Image"></a>
+       <a href="./cart.html" font-size="100px"> <img src="./Images/download-removebg-preview.png"  width="40px" alt="carticon"></a>
+       <a href="./order.html" ><img src="./Images/orders.png" alt="ordericon"></a>
       
        
     </div>`

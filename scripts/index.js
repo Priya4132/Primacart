@@ -85,6 +85,47 @@ document.getElementById("loginForm").addEventListener("submit", (event) => {
 
 let clothing_img = document.getElementById("clothing_img");
 clothing_img.addEventListener("click", async function () {
+    //filter by gender in clothing category
+let filterbygender=document.getElementById("filterbygender");
+filterbygender.style.display="flex";
+filterbygender.addEventListener("change", async function(){
+    if(filterbygender.value=="male"){
+        let data = await getClothingDetails();
+        let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.gender=="male"));
+        data=[...filteredData]  ; //making copy of filtered Data
+        
+        // console.log(filteredData)
+            showClothingDetails(filteredData);
+            data=[...filteredData]  ; //making copy of filtered Data
+        
+        }
+      else  if(filterbygender.value=="female"){
+            let data = await getClothingDetails();
+            let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.gender=="female"));
+                // console.log(filteredData)
+                showClothingDetails(filteredData);
+                data=[...filteredData]  ; //making copy of filtered Data
+            
+            }
+
+
+                else if(filterbygender.value=="kids"){
+                    let data = await getClothingDetails();
+                    let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.gender=="kids"));
+                        // console.log(filteredData)
+                        showClothingDetails(filteredData);
+                        data=[...filteredData]  ; //making copy of filtered Data
+                }
+                
+});
+
+
+
+
+
+
+
+// filter by price
 
     let filterbyprice=document.getElementById("filterbyprice");
     filterbyprice.style.display="flex";
@@ -93,7 +134,7 @@ clothing_img.addEventListener("click", async function () {
             let data = await getClothingDetails();
             let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>=1 && el.price <=4999));
             data=[...filteredData]  ; //making copy of filtered Data
-            
+            localStorage.setItem("FilterbyPriceinClothing",JSON.stringify(filteredData));
             // console.log(filteredData)
                 showClothingDetails(filteredData);
                 data=[...filteredData]  ; //making copy of filtered Data
@@ -104,6 +145,7 @@ clothing_img.addEventListener("click", async function () {
                 let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>=5000 && el.price <=20000));
                     // console.log(filteredData)
                     showClothingDetails(filteredData);
+                    localStorage.setItem("FilterbyPriceinClothing",JSON.stringify(filteredData));
                     data=[...filteredData]  ; //making copy of filtered Data
                 
                 }
@@ -114,20 +156,72 @@ clothing_img.addEventListener("click", async function () {
                         let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>20000 && el.price <=39999));
                             // console.log(filteredData)
                             showClothingDetails(filteredData);
+                            localStorage.setItem("FilterbyPriceinClothing",JSON.stringify(filteredData));
                             data=[...filteredData]  ; //making copy of filtered Data
                     }
                     else{
                         let data = await getClothingDetails();
                         let filteredData=data.filter((el,i)=> el.category=="clothing" && (el.price>40000 ));
                             // console.log(filteredData)
-                            showClothingDetails(filteredData);   
+                            showClothingDetails(filteredData); 
+                            localStorage.setItem("FilterbyPriceinClothing",JSON.stringify(filteredData));  
                             data=[...filteredData]  ; //making copy of filtered Data
                     }
 
-
+                   
 
 
 });
+// sort by price
+let sortbyprice=document.getElementById("sortbyprice");
+sortbyprice.style.display="flex";
+sortbyprice.addEventListener("change",  async function(){
+    // let data = await getFurnitureDetails();
+    let data=JSON.parse(localStorage.getItem("FilterbyPriceinClothing"));
+    // localStorage.removeItem("FilterbyPrice")
+ if(sortbyprice.value==="htl"){
+    
+     data.sort((a,b)=> b.price-a.price);
+     showClothingDetails(data);
+    //  console.log("clicked")//
+ }
+ else{
+     data.sort((a,b)=> a.price-b.price);
+     showClothingDetails(data);
+ }
+});
+
+//    sort by name
+let sortbyname=document.getElementById("sortbyname");
+sortbyname.style.display="flex";
+sortbyname.addEventListener("change",function(){
+    if(sortbyname.value=="atoz"){
+        let data=JSON.parse(localStorage.getItem("FilterbyPriceinClothing"));
+       data.sort((a,b)=>{
+            if(a.product_name>b.product_name){//ascending order
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        })
+        showClothingDetails(data);
+    }
+    else{
+        data.sort((a,b)=>{ //descending order
+            if(a.product_name>b.product_name){
+                return -1;
+            }
+            else{
+                return 1;
+            }
+        })
+        showClothingDetails(data);
+    }
+    
+})
+
+         
 
 
     let clothing_cont = document.getElementById("clothing_cont");
@@ -167,7 +261,7 @@ function showClothingDetails(arr) {
         let product_name = document.createElement("h4");
         product_name.textContent = item.product_name;
         let price = document.createElement("h4");
-        price.textContent = `Price:${item.price}`;
+        price.textContent = `Price:₹${item.price}`;
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings:${item.ratings}⭐`;
 
@@ -360,6 +454,9 @@ function showClothingDetails(arr) {
 //JS code for category wise displaying electronics  category data
 let electronics_img = document.getElementById("electronics_img");
 electronics_img.addEventListener("click", async function () {
+
+    let filterbygender=document.getElementById("filterbygender");
+    filterbygender.style.display="none";
     let filterbyprice=document.getElementById("filterbyprice");
     filterbyprice.style.display="flex";
     filterbyprice.addEventListener("change", async function(){
@@ -367,16 +464,19 @@ electronics_img.addEventListener("click", async function () {
             let data = await getElectronicsDetails();
             let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>=1 && el.price <=4999));
                 // console.log(filteredData)
+                localStorage.setItem("FilterbyPriceinElectronics",JSON.stringify(filteredData));
                 showElectronicsDetails(filteredData);
-                data=[...filteredData]  ; //making copy of filtered Data
+               // data=[...filteredData]  ; //making copy of filtered Data
             
             }
           else  if(filterbyprice.value==" 5000 to 19999"){
                 let data = await getElectronicsDetails();
                 let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>=5000 && el.price <=20000));
                     // console.log(filteredData)
+                    localStorage.setItem("FilterbyPriceinElectronics",JSON.stringify(filteredData));
+
                     showElectronicsDetails(filteredData);
-                    data=[...filteredData]  ; //making copy of filtered Data
+                   // data=[...filteredData]  ; //making copy of filtered Data
                 
                 }
 
@@ -386,13 +486,17 @@ electronics_img.addEventListener("click", async function () {
                         let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>20000 && el.price <=39999));
                             // console.log(filteredData)
                             showElectronicsDetails(filteredData);
-                            data=[...filteredData]  ; //making copy of filtered Data
+                            localStorage.setItem("FilterbyPriceinElectronics",JSON.stringify(filteredData));
+
+                          //  data=[...filteredData]  ; //making copy of filtered Data
                     }
                     else{
                         let data = await getElectronicsDetails();
                         let filteredData=data.filter((el,i)=> el.category=="electronics" && (el.price>40000 ));
                             // console.log(filteredData)
-                            showElectronicsDetails(filteredData);   
+                            localStorage.setItem("FilterbyPriceinElectronics",JSON.stringify(filteredData));
+
+                           // showElectronicsDetails(filteredData);   
                             data=[...filteredData]  ; //making copy of filtered Data
                     }
 
@@ -400,8 +504,63 @@ electronics_img.addEventListener("click", async function () {
 
 
 });
+
+// sort by price
+let sortbyprice=document.getElementById("sortbyprice");
+sortbyprice.style.display="flex";
+sortbyprice.addEventListener("change",  async function(){
+    // let data = await getFurnitureDetails();
+    let data=JSON.parse(localStorage.getItem("FilterbyPriceinElectronics"));
+    // localStorage.removeItem("FilterbyPrice")
+ if(sortbyprice.value==="htl"){
+    
+     data.sort((a,b)=> b.price-a.price);
+     showElectronicsDetails(data);
+    //  console.log("clicked")//
+ }
+ else{
+     data.sort((a,b)=> a.price-b.price);
+     showElectronicsDetails(data);
+ }
+});
+
+//    sort by name
+let sortbyname=document.getElementById("sortbyname");
+sortbyname.style.display="flex";
+sortbyname.addEventListener("change",function(){
+    if(sortbyname.value=="atoz"){
+        let data=JSON.parse(localStorage.getItem("FilterbyPriceinElectronics"));
+       data.sort((a,b)=>{
+            if(a.product_name>b.product_name){//ascending order
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        })
+        showElectronicsDetails(data);
+    }
+    else{
+        data.sort((a,b)=>{ //descending order
+            if(a.product_name>b.product_name){
+                return -1;
+            }
+            else{
+                return 1;
+            }
+        })
+        showElectronicsDetails(data);
+    }
+    
+})
+
+
+
+
+
     let electronics_cont = document.getElementById("electronics_cont");
     electronics_cont.style.display = "grid";
+
     let furniture_cont = document.getElementById("furniture_cont");
     furniture_cont.style.display = "none";
     let clothing_cont = document.getElementById("clothing_cont");
@@ -605,7 +764,7 @@ function showElectronicsDetails(arr) {
         product_name.textContent = item.product_name;
 
         let price = document.createElement("h4");
-        price.textContent = `Price: ${item.price}`;
+        price.textContent = `Price:₹${item.price}`;
 
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings: ${item.ratings}⭐`;
@@ -751,7 +910,8 @@ let furniture_img = document.getElementById("furniture_img");
 furniture_img.addEventListener("click", async function () {
 
 
-//sort 
+    let filterbygender=document.getElementById("filterbygender");
+    filterbygender.style.display="none";
 
 
 
@@ -765,7 +925,8 @@ furniture_img.addEventListener("click", async function () {
             let filteredData=data.filter((el,i)=>el.price>=1 && el.price <=4999);
                 // console.log(filteredData)
                 showFurnitureDetails(filteredData);
-                data=[...filteredData]  ; //making copy of filtered Data
+                localStorage.setItem("FilterbyPriceinFurniture",JSON.stringify(filteredData));
+                //data=[...filteredData]  ; //making copy of filtered Data
             }
            else if(filterbyprice.value==" 5000 to 19999"){
                 let data = await getFurnitureDetails();
@@ -773,7 +934,7 @@ furniture_img.addEventListener("click", async function () {
                     // console.log(filteredData)
                     showFurnitureDetails(filteredData);
                     // data=[...filteredData]  ; //making copy of filtered Data
-                    localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
+                    localStorage.setItem("FilterbyPriceinFurniture",JSON.stringify(filteredData));
                 
                 }
 
@@ -784,7 +945,7 @@ furniture_img.addEventListener("click", async function () {
                             // console.log(filteredData)
                             showFurnitureDetails(filteredData);
                             // data=[...filteredData]  ; //making copy of filtered Data
-                            localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
+                            localStorage.setItem("FilterbyPriceinFurniture",JSON.stringify(filteredData));
                     }
                     else{
                         let data = await getFurnitureDetails();
@@ -792,7 +953,7 @@ furniture_img.addEventListener("click", async function () {
                             // console.log(filteredData)
                             showFurnitureDetails(filteredData);  
                             // data=[...filteredData]  ; //making copy of filtered Data 
-                            localStorage.setItem("FilterbyPrice",JSON.stringify(filteredData));
+                            localStorage.setItem("FilterbyPriceinFurniture",JSON.stringify(filteredData));
                     }
 
 
@@ -804,19 +965,50 @@ let sortbyprice=document.getElementById("sortbyprice");
 sortbyprice.style.display="flex";
 sortbyprice.addEventListener("change",  async function(){
     // let data = await getFurnitureDetails();
-    let data=JSON.parse(localStorage.getItem("FilterbyPrice"));
+    let data=JSON.parse(localStorage.getItem("FilterbyPriceinFurniture"));
     // localStorage.removeItem("FilterbyPrice")
  if(sortbyprice.value==="htl"){
     
      data.sort((a,b)=> b.price-a.price);
      showFurnitureDetails(data);
-     console.log("clicked")//
+    // console.log("clicked")//
  }
  else{
      data.sort((a,b)=> a.price-b.price);
      showFurnitureDetails(data);
  }
 })
+//    sort by name
+let sortbyname=document.getElementById("sortbyname");
+sortbyname.style.display="flex";
+sortbyname.addEventListener("change",function(){
+    if(sortbyname.value=="atoz"){
+        let data=JSON.parse(localStorage.getItem("FilterbyPriceinFurniture"));
+       data.sort((a,b)=>{
+            if(a.product_name>b.product_name){//ascending order
+                return 1;
+            }
+            else{
+                return -1;
+            }
+        })
+        showFurnitureDetails(data);
+    }
+    else{
+        data.sort((a,b)=>{ //descending order
+            if(a.product_name>b.product_name){
+                return -1;
+            }
+            else{
+                return 1;
+            }
+        })
+        showFurnitureDetails(data);
+    }
+    
+})
+
+         
             
                
                // let filteredprice=filteredData.filter((ele,i)=> ele.price>"10000")
@@ -998,7 +1190,7 @@ async function getFurnitureDetails() {
 }
 
 // JS code for showing furniture details
-// Akash version
+
 function showFurnitureDetails(arr) {
     let furniture_cont = document.getElementById("furniture_cont");
     furniture_cont.innerHTML = "";
@@ -1009,7 +1201,7 @@ let card = document.createElement("div");
         product_name.textContent = item.product_name;
 
         let price = document.createElement("h4");
-        price.textContent = `Price: ${item.price}`;
+        price.textContent = `Price:₹${item.price}`;
 
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings: ${item.ratings}⭐`;

@@ -54,7 +54,7 @@ function showWishlistProductDetails(arr) {
         let product_name = document.createElement("h4");
         product_name.textContent = item.product_name;
         let price = document.createElement("h4");
-        price.textContent = `Price:${item.price}`;
+        price.textContent = `Price:₹${item.price}`;
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings:${item.ratings}⭐`;
 
