@@ -1,3 +1,23 @@
+/* navbar for admin */
+#navbar{
+    display: flex;
+    justify-content: space-around;
+    background-color: #f5f5f5;
+    align-items: center;
+}
+#navbar a{
+    text-decoration: none;
+    color: black;
+    height: 50px;
+font-size: 30px;color: rgb(2, 2, 7);
+width: 50px;
+}
+#navbar a:hover{
+    color:blue;
+}
+
+
+
 /* styling for admin login section  */
 #admin-form{
     display:none;

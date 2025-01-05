@@ -1,23 +1,43 @@
 let customerData = JSON.parse(localStorage.getItem("customersData"));
 
+
+
+//logout button
+
+
+
+document.getElementById("logout").addEventListener("click", function () {
+  localStorage.removeItem("customersData");
+  alert("Redirecting to Home Page....");
+  window.location.href = "index.html";
+});
 if (customerData === null) {
     alert("You are not logged in, Please Login to check order Details");
     window.location.href = "login1.html";
 }
+else{
+    document.getElementById(
+        "user-name"
+      ).textContent = `Welcome, ${customerData.signup_name}`; 
+}
+    
+     
+      
+
 
 
 window.onload = async () => {
     // let data=await getFurnitureDetails();
     let customerData = JSON.parse(localStorage.getItem("customersData"));
-    console.log(customerData);
+    // console.log(customerData);
     let customerId = null;
     if (customerData != null) {
         customerId = customerData.id;
     }
     let orderPerCustomer = JSON.parse(localStorage.getItem("orderPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
-    console.log("orderPerCustomer=", orderPerCustomer);
+    // console.log("orderPerCustomer=", orderPerCustomer);
     let orderForThisCustomer = orderPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-    console.log("orderForThisCustomer=", orderForThisCustomer);
+    // console.log("orderForThisCustomer=", orderForThisCustomer);
     if (orderForThisCustomer == undefined || orderPerCustomer == null) {
         alert("No products in order")
     } else {
@@ -36,7 +56,7 @@ window.onload = async () => {
             let pincode = item.pincode;
             let dateAndTime = item.dateAndTime;
 
-            console.log(paymentMethod)
+            // console.log(paymentMethod)
             // console.log(orderId);
             let elementOrderTitle = document.createElement("h2");
             elementOrderTitle.textContent = `Below are details for your order with id=#${orderId}:`        
@@ -48,7 +68,7 @@ window.onload = async () => {
             elementOrderDeliveryDetails.textContent = `Your Order will be delivered at this Address:${address}.${pincode}`;
             ordersDiv.append(elementOrderTitle, elementOrderDate, elementTotalPrice, elementOrderDeliveryDetails);
 
-            console.log("orderArray=", item.orderedProducts);
+            // console.log("orderArray=", item.orderedProducts);
             showOrderDetails(item.orderedProducts);
         });
     }
@@ -66,7 +86,11 @@ function showOrderDetails(arr) {
         let product_name = document.createElement("h4");
         product_name.textContent = item.product_name;
         let price = document.createElement("h4");
-        price.textContent = `Price:₹${item.price}`;
+        price.textContent = `Price per product:₹${item.price}`;
+        let quantity = document.createElement("h4");
+        quantity.textContent = `Quatity ordered:${item.quantity}`;
+        let totalPrice = document.createElement("h4");
+        totalPrice.textContent = `Total price paid for this product:₹${item.price*item.quantity}`;
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings:${item.ratings}⭐`;
 
@@ -74,7 +98,7 @@ function showOrderDetails(arr) {
         let product_image = document.createElement("img");
         product_image.src = item.product_image;
         let specificationdiv = document.createElement("div");
-        specificationdiv.append(product_name, price, ratings)
+        specificationdiv.append(product_name, price, ratings,quantity,totalPrice)
         card.append(product_image, specificationdiv);
 
         allProducts.append(card);

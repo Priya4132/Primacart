@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="./styles/admin.css">
 </head>
 <body>
+    <div id="navbar">
+        <div id="logo">
+            <a href="./index.html">
+           <img src="./Images/WhatsApp_Image_2024-12-30_at_6.04.25_PM-removebg-preview.png" alt="PrimaCart Logo" width="200px">
+        </a> </div>
+       <a href="./index.html">Home</a>
+       </div>
+      
+     </div>
     <h1>Welcome to the Admin Dashboard</h1>
     <div id="logout">
    
@@ -19,15 +28,23 @@
     <form action="" id="addproductform">
         <input type="text" id="product_name" placeholder="Product Name">
         <input type="text" id="price" placeholder="Product Price">
-        <input type="number" id="ratings" placeholder="Ratings">
+        <input type="float" id="ratings" placeholder="Ratings">
         <input type="number" id="stocks" placeholder="Stocks">
         <input type="text" name="" id="product_image" placeholder="Enter product image url">
+       
         <select name="" id="category">
             <option value="">Select Product Category</option>
             <option value="furniture">Furniture</option>
             <option value="electronics">Electronics</option>
             <option value="clothing">Clothing</option>
         </select>
+        <!-- <select name="" id="filterbygender">
+            <option value="">Select Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="kids">Kids</option>
+        </select> -->
+        
         <input type="submit" id="submit" value="Add Product">
     </form>
 </div>

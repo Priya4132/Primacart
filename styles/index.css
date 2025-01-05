@@ -9,24 +9,27 @@
     display: flex;
     justify-content:space-around;
     gap:20px;
+    font-size: 15px;
 
+    font-family: 'Times New Roman', Times, serif;
+    margin-right: 10%;
 }
-#navbar-links a{
-height: 50px;
-width: 50px;
-}
+
+
 #navbar-links img{
     height: 50px;
     width: 50px;
 }
-#navbar-links{
-    font-size: 15px;
-    font-family: 'Times New Roman', Times, serif;
-    margin-right: 5%;
-}
+
 #navbar-links a{
     text-decoration: none;
     color: black;
+    height: 50px;
+width: 50px;
+}
+
+#selecttag{
+    display: none;
 }
 /* slider styling */
 
@@ -87,12 +90,13 @@ width: 50px;
     grid-template-columns: repeat(3,1fr);
     background-color: rgb(252, 249, 242);
 }
-.product_info1.product_info1{
+.product_info1{
     
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap:20px;
     background-color: rgb(240, 234, 222);
 }
 .product_info1:hover {
@@ -107,6 +111,16 @@ width: 50px;
     border-radius: 10%;
     width:300px;
     /* border: 1px solid black; */
+}
+.card{
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.product_image{
+    width:100%;
+}
+.specificatdioniv{
+    background-color: rgba(236, 232, 232, 0.911);
+    padding:10px;
 }
 
 #prima_search{
@@ -149,9 +163,22 @@ width: 50px;
 
 
 /* filtering option  */
- #filterbyprice,#filterbygender,#sortbyprice,#sortbyname{
+ #filterbyprice,#filterbygender,#sortbyprice,#sortbyname,#priceFilter{
     display: none;
 
+ }
+ 
+ #sortandfilter{
+    background-color:rgb(255, 255, 255);
+    width: 50%;
+    display:flex;
+    margin:50px auto;
+    grid-template-columns: repeat(2,200px);
+justify-content: center;
+    gap:20px;
+    height: fit-content;
+    /* padding: 20px; */ 
+    /* align-items: nterce; */
  }
  
 
@@ -211,4 +238,35 @@ justify-content: space-around;
 
 .hl{
     border-bottom: 1px solid gray;
+}
+
+/* media query */
+@media (min-width:320px) and (max-width:767px){
+    #selecttag{
+        display: block;
+    }
+    #navbar-links{
+        display: none;
+    }
+    #product_info{
+        width:100%;
+        display:flex;
+        
+        flex-direction: column;
+    }
+    #furniture_cont, #electronics_cont, #clothing_cont,#wishlist_cont{
+        grid-template-columns: repeat(2,1fr);
+    }
+}
+
+@media (min-width:768px) and (max-width:1023px){
+    #furniture_cont, #electronics_cont, #clothing_cont,#wishlist_cont{
+        grid-template-columns: repeat(2,1fr);
+        gap:60px;
+    } 
+    #product_info{
+        width:100%;
+        grid-template-columns: repeat(2,1fr);
+       
+    }
 }

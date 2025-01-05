@@ -21,7 +21,7 @@ const navbar=()=>{
                         <input id="search-input" type="text" placeholder="Search on PrimaCart"
                             style="height: 30px;margin-left:0px;">
                     </form>
-
+  <h4 id="user-name"></h4>
     <div id="navbar-links">
    
        <a href="./login1.html" ><img src="./Images/profile-52e0dc.svg" alt="loginicon" ></a>
@@ -30,10 +30,26 @@ const navbar=()=>{
        <a href="./order.html" ><img src="./Images/orders.png" alt="ordericon"></a>
       
        
-    </div>`
+    </div>
+    <select name="" id="selecttag"> 
+    <option value="./login1.html">User</option>
+    <option value="./login1.html">Login</option>
+    <option value="./wishlist.html">Wishlist</option>
+    <option value="./cart.html">Cart</option>
+    <option value="./order.html">View Orders</option>
+</select>`
+
 
        document.getElementById("navbar").innerHTML=card;
 }
 navbar();
+const selecttag= document.getElementById('selecttag');
+
+selecttag.addEventListener('change', function () {
+  const selectedValue = this.value;
+  if (selectedValue) {
+    window.location.href = selectedValue; // Navigate to the selected page
+  }
+});
 
   //  <input type="search" placeholder="Search for Products">

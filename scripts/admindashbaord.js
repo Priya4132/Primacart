@@ -33,6 +33,7 @@ form.addEventListener("submit", async  function(){
   let ratings=form.ratings.value;
   let stocks=form.stocks.value;
   let category=form.category.value;
+  
   let product_image=form.product_image.value;
   let productObj={product_name,price,ratings,stocks,category,product_image}
 //now push form data to json server

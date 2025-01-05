@@ -1,13 +1,21 @@
-#footer{
-    /* border: 1px solid black;
-    margin:auto  */
-   bottom:0;
-   
-   /* position:fixed; */
-   width: 100%;
-   
-}
+/* body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+  } */
+  body {
+    height: 100%;
+    margin: 0;
+  }
 
+  #footer {
+    margin-top:20%;
+    /* background: #333; */
+    color: #050505;
+    text-align: center;
+    padding: 10px 0;
+  }
 #footer-links{
     display: grid;
     padding:20px;

@@ -4,8 +4,23 @@
 
 let customerData = JSON.parse(localStorage.getItem("customersData"));
 
+
+// displaying customer name in navbar
+
+if(!customerData){
+  
+    document.getElementById(
+        "user-name"
+      ).textContent = `Welcome, Guest`;
+    
+    }
+    else{
+        document.getElementById(
+            "user-name"
+          ).textContent = `Welcome, ${customerData.signup_name}`; 
+    }
     document.getElementById("logout").addEventListener("click", function () {
-        localStorage.removeItem("customersData");
+        localStorage.removeItem("loginData");
         alert("Redirecting to Home Page....");
         window.location.href = "index.html";
       });
@@ -20,20 +35,21 @@ let customerData = JSON.parse(localStorage.getItem("customersData"));
 window.onload = async () => {
     // let data=await getFurnitureDetails();
     let customerData = JSON.parse(localStorage.getItem("customersData"));
-    console.log(customerData);
+    // console.log(customerData);
+
     let customerId = null;
     if (customerData != null) {
         customerId = customerData.id;
     }
     let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
-    console.log("wishListPerCustomer=", wishListPerCustomer);
+    // console.log("wishListPerCustomer=", wishListPerCustomer);
     let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-    console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
+    // console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
     if (wishlistForThisCustomer == undefined || wishListPerCustomer == null) {
         alert("No products in wishlist!")
     } else {
         let wishArray = wishlistForThisCustomer.wishArray;
-        console.log("wishArray=", wishArray);
+        // console.log("wishArray=", wishArray);
         showWishlistProductDetails(wishArray);
     }
 
@@ -54,7 +70,7 @@ function showWishlistProductDetails(arr) {
         let product_name = document.createElement("h4");
         product_name.textContent = item.product_name;
         let price = document.createElement("h4");
-        price.textContent = `Price:₹${item.price}`;
+        price.textContent = `Price:${item.price}`;
         let ratings = document.createElement("h4");
         ratings.textContent = `Ratings:${item.ratings}⭐`;
 
@@ -149,16 +165,16 @@ function showWishlistProductDetails(arr) {
 
 function addtoCart(product) {
     let customerData = JSON.parse(localStorage.getItem("customersData"));
-    console.log(customerData);
+    // console.log(customerData);
     let customerId = null;
     if (customerData != null) {
         customerId = customerData.id;
-        console.log("customerId=", customerId);
+        // console.log("customerId=", customerId);
     }
     let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
-    console.log("cartPerCustomer=", cartPerCustomer);
+    // console.log("cartPerCustomer=", cartPerCustomer);
     let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-    console.log("cartForThisCustomer=", cartForThisCustomer);
+    // console.log("cartForThisCustomer=", cartForThisCustomer);
     if (cartForThisCustomer == null || cartForThisCustomer == undefined) {
         let cartArray = [];
         cartArray.push(product);
@@ -171,11 +187,11 @@ function addtoCart(product) {
         alert("Product added to the cart");
     } else {
         let cartArray = cartForThisCustomer.cartArray;
-        console.log("cartArray=", cartArray);
+        // console.log("cartArray=", cartArray);
         let matchedProduct = cartArray.filter((ele, i) => ele.id == product.id);
-        console.log("matchedProduct=", matchedProduct);
+        // console.log("matchedProduct=", matchedProduct);
         if (matchedProduct.length != 0) {
-            alert("Product already present in the Cart");
+            alert("Product already present in the Cart, Kindly visit the Cart Page to increase the quantity");
         } else {
             cartArray.push(product);
             localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
@@ -190,22 +206,22 @@ function addtoCart(product) {
 //remove from wishlist function
 function removeWishlist(productId) {
     let customerData = JSON.parse(localStorage.getItem("customersData"));
-    console.log(customerData);
+    // console.log(customerData);
     let customerId = null;
     if (customerData != null) {
         customerId = customerData.id;
-        console.log("customerId=", customerId);
+        // console.log("customerId=", customerId);
     }
     let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || []; // Fetching wishlisted products
-    console.log("wishListPerCustomer=", wishListPerCustomer);
+    // console.log("wishListPerCustomer=", wishListPerCustomer);
     let wishlistForThisCustomer = wishListPerCustomer.filter((ele) => ele.customerId == customerId)[0];
-    console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
+    // console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
 
     if (wishlistForThisCustomer == null || wishlistForThisCustomer == undefined) {
         alert("No products in the wishlist!");
     } else {
         let wishArray = wishlistForThisCustomer.wishArray;
-        console.log("wishArray before removal=", wishArray);
+        // console.log("wishArray before removal=", wishArray);
 
         // Filter out the product with the given productId
         let updatedWishArray = wishArray.filter((item) => item.id != productId);
@@ -226,7 +242,7 @@ function removeWishlist(productId) {
 
         localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
         alert("Product removed from the wishlist");
-
-        console.log("wishArray after removal=", updatedWishArray);
+        showWishlistProductDetails([])
+        // console.log("wishArray after removal=", updatedWishArray);
     }
 }
