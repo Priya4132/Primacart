@@ -1,6 +1,14 @@
 // import { logout } from "./scripts/logout.js";
 
-//logout button
+const selecttag= document.getElementById('selecttag');
+
+selecttag.addEventListener('change', function () {
+  const selectedValue = this.value;
+  if (selectedValue) {
+    window.location.href = selectedValue; // Navigate to the selected page
+  }
+});
+
 
 let customerData = JSON.parse(localStorage.getItem("customersData"));
 

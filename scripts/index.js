@@ -233,7 +233,7 @@ clothing_img.addEventListener("click", async function () {
 // https://polarized-concrete-desert.glitch.me/furniture
 async function getClothingDetails() {
     try {
-        let res = await fetch("http://localhost:3000/furniture");
+        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
         let data = await res.json();
         return data;
 
@@ -564,7 +564,7 @@ electronics_img.addEventListener("click", async function () {
 
 async function getElectronicsDetails() {
     try {
-        let res = await fetch("http://localhost:3000/furniture");
+        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
         let data = await res.json();
         return data;
 
@@ -861,7 +861,7 @@ furniture_img.addEventListener("click", async function () {
 // JS code for fetching furniture details
 async function getFurnitureDetails() {
     try {
-        let res = await fetch("http://localhost:3000/furniture");
+        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
         let data = await res.json();
         return data;
 

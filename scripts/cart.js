@@ -1,5 +1,15 @@
 //logout button
 
+
+const selecttag= document.getElementById('selecttag');
+
+selecttag.addEventListener('change', function () {
+  const selectedValue = this.value;
+  if (selectedValue) {
+    window.location.href = selectedValue; // Navigate to the selected page
+  }
+});
+
 let customerData = JSON.parse(localStorage.getItem("customersData"));
 if (customerData === null) {
   alert("You are not logged in, Please Login to add products to the Cart");

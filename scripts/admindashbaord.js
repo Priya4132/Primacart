@@ -39,7 +39,7 @@ form.addEventListener("submit", async  function(){
 //now push form data to json server
 
 try{
-  await  fetch("http://localhost:3200/furniture",{
+  await  fetch("https://polarized-concrete-desert.glitch.me/furniture",{
        method:"POST",
        headers:{
            "content-type":"application/json"
@@ -63,7 +63,7 @@ window.onload=async ()=>{
 
 async function getProductDetails() {
   try{
-let res=await fetch("http://localhost:3200/furniture");
+let res=await fetch("https://polarized-concrete-desert.glitch.me/furniture");
 let data=await res.json();
 return data;
 
@@ -236,7 +236,7 @@ let filterbycategory=document.getElementById("filterbycategory");
     filterbycategory.addEventListener("change",async function(){
 
       try{
-        let res=await fetch("http://localhost:3200/furniture");
+        let res=await fetch("https://polarized-concrete-desert.glitch.me/furniture");
         let data=await res.json();
         // console.log(data)
         if(filterbycategory.value=="clothing"){
