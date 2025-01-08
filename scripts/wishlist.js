@@ -92,21 +92,7 @@ function showWishlistProductDetails(arr) {
         removerwishlistbtn.addEventListener("click", function () {
             if (confirm("Are you sure to remove item from Wishlist")) {
                 removeWishlist(item.id)
-            //     let customerData = JSON.parse(localStorage.getItem("customersData"));
-            //     console.log(customerData);
-            //     let customerId = null;
-            //     if (customerData != null) {
-            //         customerId = customerData.id;
-            //     }
-            //     // let wishArray = wishlistForThisCustomer.wishArray;
-            //     let wishArray = JSON.parse(localStorage.getItem("wishListPerCustomer")) ;
-            //     let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer"));
-            //     let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-            //     wishlist_cont.removeChild(card);
-            //     wishlistForThisCustomer.splice(i, 1);
-            //     // localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //     localStorage.setItem("wishListForThisCustomer", JSON.stringify(wishlistForThisCustomer));
-            //     location.reload(); // Refresh to reflect change
+           
              }
         })
         //add to cart button
@@ -115,52 +101,12 @@ function showWishlistProductDetails(arr) {
         cartbtn.addEventListener("click", function () {
 
             addtoCart(item);
-            // // location.reload(); // Refresh to reflect changess
-            // let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            // //check wether product is present in the cart
-            // if (item.stocks == 0) {
-            //     alert("product Out of Stock");
-            // }
-            // else {
-
-
-            //     let filteredArray = cartArray.filter((ele, i) => ele.id == item.id);
-            //     // console.log("fa", filteredArray)
-            //     // if filteredArray length == 1, item is prsent in the cart else not present
-            //     if (filteredArray.length == 0) {
-            //         cartArray.push({ ...item, quantity: 1 });//spreading of old onject and adding a new key
-            //         //console.log("ca", cartArray)
-            //     }
-            //     else {
-            //         // if filteredArray length == 1, item is prsent in the cart
-            //         // just update the quantity key and store in localStoarge
-            //         // console.log("ca in the else", cartArray)
-            //         //console.log(el["quantity"]);
-            //         let newArr = cartArray.map((product, i) => {
-            //             if (product.id == item.id) {
-            //                 product["quantity"]++
-            //                 //console.log( item["quantity"])
-            //                 return product
-            //                 //return true;
-
-            //             }
-            //             else {
-            //                 return product;
-            //             }
-            //         })
-            //         //console.log(newArr)
-            //         cartArray = [...newArr]
-            //     }
-
-
-
-            //     //console.log("before pushing", cartArray)
-            //     localStorage.setItem("cartProducts", JSON.stringify(cartArray));
-            //     alert("Product added to the cart");
-
-            // }
-
+            
         });
+
+
+
+        
 
         card.append(product_image, specificationdiv, removerwishlistbtn, cartbtn);
         wishlist_cont.append(card);

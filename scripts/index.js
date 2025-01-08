@@ -1,3 +1,5 @@
+import { baseUrl } from "./baseUrl.js";
+
 let customerData = JSON.parse(localStorage.getItem("customersData"));
 
 if(!customerData){
@@ -39,37 +41,24 @@ nextButton.addEventListener('click', () => {
     showSlide(currentIndex);
 });
 
-// admin login page
-
-// const { json } = require("body-parser");
-
-// let adminloginbtn = document.getElementById("adminloginbtn");
-// adminloginbtn.addEventListener("click", function () {
-//     let adminform = document.getElementById("admin-form")
-//     adminform.style.display = "flex";//catching admin login form
-// });
 
 
+// const adminUsername = "admin";
+// const adminPassword = "admin123";
 
-
-//catching admin form for checking credentials
-
-const adminUsername = "admin";
-const adminPassword = "admin123";
-
-// Redirect to dashboard if already logged in
-if (localStorage.getItem("username") && localStorage.getItem("password")) {
-    if (
-        localStorage.getItem("username") === adminUsername &&
-        localStorage.getItem("password") === adminPassword
-    ) {
-        window.location.href = "dashboard.html";
-    } else {
-        // Clear incorrect credentials
-        localStorage.removeItem("username");
-        localStorage.removeItem("password");
-    }
-}
+// // Redirect to dashboard if already logged in
+// if (localStorage.getItem("username") && localStorage.getItem("password")) {
+//     if (
+//         localStorage.getItem("username") === adminUsername &&
+//         localStorage.getItem("password") === adminPassword
+//     ) {
+//         window.location.href = "dashboard.html";
+//     } else {
+//         // Clear incorrect credentials
+//         localStorage.removeItem("username");
+//         localStorage.removeItem("password");
+//     }
+// }
 
 
 //JS code for category wise displaying clothing category data
@@ -233,7 +222,7 @@ clothing_img.addEventListener("click", async function () {
 // https://polarized-concrete-desert.glitch.me/furniture
 async function getClothingDetails() {
     try {
-        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
+        let res = await fetch(`${baseUrl}/furniture`);
         let data = await res.json();
         return data;
 
@@ -270,86 +259,58 @@ function showClothingDetails(arr) {
 
         let specificationdiv = document.createElement("div");
         specificationdiv.setAttribute("class", "specificatdioniv")
-        specificationdiv.append(product_name, price, ratings);
-        // Decrease Quantity Button
-        let decreaseBtn = document.createElement("button");
-        decreaseBtn.textContent = "Decrease Quantity";
-        decreaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    product["quantity"]--;
-                    item.stocks++;
-                    if (product["quantity"] === 0) {
-                        return null; // Mark for removal
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            }).filter(Boolean); // Remove null items
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
-
-        // Increase Quantity Button
-        let increaseBtn = document.createElement("button");
-        increaseBtn.textContent = "Increase Quantity";
-        increaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    if (item.stocks > 0) {
-                        product["quantity"]++;
-                        item.stocks--;
-                    } else {
-                        alert("No more stock available");
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            });
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
-
+        // specificationdiv.append(product_name, price, ratings);
+        let quantityDiv = document.createElement("div");
+        let quantityLabel = document.createElement("span");
+        quantityLabel.textContent = "Quantity: ";
+          let quantity = document.createElement("span");
+          item.quantity = item.quantity || 1;
+          quantity.textContent = item.quantity;
+    
+          let increaseBtn = document.createElement("button");
+          increaseBtn.textContent = "+";
+    
+         
+    // Decrease Quantity
+    let decreaseBtn = document.createElement("button");
+        decreaseBtn.textContent = "-";
+  
+    decreaseBtn.addEventListener("click", function () {
+      if (item.quantity > 1) {
+        item.quantity--;
+        quantity.textContent = parseInt(item.quantity);
+        cartArray[i] = item;
+        // localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+        localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+      }
+    });
+  
+    // Increase Quantity
+    increaseBtn.addEventListener("click", function () {
+      // console.log("item.quantity=", item.quantity, "item.stocks=", item.stocks);
+      if (item.quantity < item.stocks) {
+        item.quantity = (item.quantity || 1) + 1;
+        quantity.textContent = item.quantity;
+        localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+        //cartArray[i] = item;
+        //localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+        //showCartDetails(cartArray); // Refresh cart
+      } else {
+        alert("Cannot add more than available stock.");
+      }
+    });
+  
+    quantityDiv.append(quantityLabel, decreaseBtn, quantity, increaseBtn);
+    specificationdiv.append(product_name, price, ratings, quantityDiv);
+  
+  
+  
         //wishlist button    
         let wishlistbtn = document.createElement("button");
         wishlistbtn.textContent = "Wishlist";
         wishlistbtn.addEventListener("click", function () {
             addWishlist(item);
-            // let customerData = JSON.parse(localStorage.getItem("customersData"));
-            // console.log(customerData);
-            // let customerId = null;
-            // if(customerData!=null){
-            //     customerId = customerData.id;
-            //     console.log("customerId=",customerId);
-            // }
-            // let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
-            // console.log("wishListPerCustomer=",wishListPerCustomer);
-            // let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-            // console.log("wishlistForThisCustomer=",wishlistForThisCustomer);
-            // if (wishlistForThisCustomer == null || wishlistForThisCustomer == undefined) {
-            //     let wishArray = [];
-            //     wishArray.push(item);
-            //     let wishlistForThisCustomer = {
-            //         "customerId": customerId,
-            //         "wishArray": wishArray
-            //     }
-            //     wishListPerCustomer.push(wishlistForThisCustomer);
-            //     localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //     alert("Product added to the wishlist");
-            // }else{
-            //     let wishArray = wishlistForThisCustomer.wishArray;
-            //     console.log("wishArray=",wishArray);
-            //     let matchedProduct = wishArray.filter((ele, i) => ele.id == item.id);
-            //     console.log("matchedProduct=",wishArray);
-            //     if(matchedProduct.length != 0){
-            //         alert("Product already present in the Wishlist");
-            //     } else {
-            //         wishArray.push(item);
-            //         alert("Product added to the wishlist");
-            //     }
-            // }
+           
         });
 
 
@@ -359,76 +320,7 @@ function showClothingDetails(arr) {
         cartbtn.addEventListener("click", function () {
             addtoCart(item);
 
-            // let customerData = JSON.parse(localStorage.getItem("customersData"));
-            // console.log(customerData);
-            // let customerId = null;
-            // if (customerData != null) {
-            //     customerId = customerData.id;
-            //     console.log("customerId=", customerId);
-            // }
-            // let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer")) || [];//fetching wishlisted products from local storage if already present or an empty array
-            // console.log("cartPerCustomer=", cartPerCustomer);
-            // let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // // location.reload(); // Refresh to reflect changess
-            // let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            // //check wether product is present in the cart
-            // if (item.stocks == 0) {
-            //     alert("product Out of Stock");
-            // }
-            // else {
-
-
-            //     let filteredArray = cartArray.filter((ele, i) => ele.id == item.id);
-            //     // console.log("fa", filteredArray)
-            //     // if filteredArray length == 1, item is prsent in the cart else not present
-            //     if (filteredArray.length == 0) {
-            //         cartArray.push({ ...item, quantity: 1 });//spreading of old onject and adding a new key
-            //         //console.log("ca", cartArray)
-            //     }
-            //     else {
-            //         // if filteredArray length == 1, item is prsent in the cart
-            //         // just update the quantity key and store in localStoarge
-            //         // console.log("ca in the else", cartArray)
-            //         //console.log(el["quantity"]);
-            //         let newArr = cartArray.map((product, i) => {
-            //             if (product.id == item.id) {
-            //                 product["quantity"]++
-            //                 //console.log( item["quantity"])
-            //                 return product
-            //                 //return true;
-
-            //             }
-            //             else {
-            //                 return product;
-            //             }
-            //         })
-            //         //console.log(newArr)
-            //         cartArray = [...newArr]
-            //     }
-
-
-
-            //     //console.log("before pushing", cartArray)
-            //     localStorage.setItem("cartProducts", JSON.stringify(cartArray));
-            //     alert("Product added to the cart");
-
-            // }
+          
 
         });
 
@@ -564,7 +456,7 @@ electronics_img.addEventListener("click", async function () {
 
 async function getElectronicsDetails() {
     try {
-        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
+        let res = await fetch(`${baseUrl}/furniture`);
         let data = await res.json();
         return data;
 
@@ -601,88 +493,101 @@ function showElectronicsDetails(arr) {
 
         let specificationdiv = document.createElement("div");
         specificationdiv.setAttribute("class", "specificatdioniv")
-        specificationdiv.append(product_name, price, ratings);
+        // specificationdiv.append(product_name, price, ratings);
 
-        // Decrease Quantity Button (-)
-        let decreaseBtn = document.createElement("button");
+        // // Decrease Quantity Button (-)
+        // let decreaseBtn = document.createElement("button");
+        // decreaseBtn.textContent = "-";
+        // decreaseBtn.addEventListener("click", function () {
+        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
+        //     let newArr = cartArray.map((product) => {
+        //         if (product.id === item.id) {
+        //             product["quantity"]--;
+        //             item.stocks++;
+        //             if (product["quantity"] === 0) {
+        //                 return null; // Mark for removal
+        //             }
+        //             return product;
+        //         } else {
+        //             return product;
+        //         }
+        //     }).filter(Boolean); // Remove null items
+        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
+        // });
+
+        // // Increase Quantity Button (+)
+        // let increaseBtn = document.createElement("button");
+        // increaseBtn.textContent = "+";
+        // increaseBtn.addEventListener("click", function () {
+        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
+        //     let newArr = cartArray.map((product) => {
+        //         if (product.id === item.id) {
+        //             if (item.stocks > 0) {
+        //                 product["quantity"]++;
+        //                 item.stocks--;
+        //             } else {
+        //                 alert("No more stock available");
+        //             }
+        //             return product;
+        //         } else {
+        //             return product;
+        //         }
+        //     });
+        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
+        // });
+
+        let quantityDiv = document.createElement("div");
+        let quantityLabel = document.createElement("span");
+        quantityLabel.textContent = "Quantity: ";
+          let quantity = document.createElement("span");
+          item.quantity = item.quantity || 1;
+          quantity.textContent = item.quantity;
+    
+          let increaseBtn = document.createElement("button");
+          increaseBtn.textContent = "+";
+    
+         
+    // Decrease Quantity
+    let decreaseBtn = document.createElement("button");
         decreaseBtn.textContent = "-";
-        decreaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    product["quantity"]--;
-                    item.stocks++;
-                    if (product["quantity"] === 0) {
-                        return null; // Mark for removal
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            }).filter(Boolean); // Remove null items
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
-
-        // Increase Quantity Button (+)
-        let increaseBtn = document.createElement("button");
-        increaseBtn.textContent = "+";
-        increaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    if (item.stocks > 0) {
-                        product["quantity"]++;
-                        item.stocks--;
-                    } else {
-                        alert("No more stock available");
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            });
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
+  
+    decreaseBtn.addEventListener("click", function () {
+      if (item.quantity > 1) {
+        item.quantity--;
+        quantity.textContent = parseInt(item.quantity);
+        cartArray[i] = item;
+        // localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+        localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+      }
+    });
+  
+    // Increase Quantity
+    increaseBtn.addEventListener("click", function () {
+      // console.log("item.quantity=", item.quantity, "item.stocks=", item.stocks);
+      if (item.quantity < item.stocks) {
+        item.quantity = (item.quantity || 1) + 1;
+        quantity.textContent = item.quantity;
+        localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+        //cartArray[i] = item;
+        //localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+        //showCartDetails(cartArray); // Refresh cart
+      } else {
+        alert("Cannot add more than available stock.");
+      }
+    });
+  
+    quantityDiv.append(quantityLabel, decreaseBtn, quantity, increaseBtn);
+    specificationdiv.append(product_name, price, ratings, quantityDiv);
+  
+  
+  
 
         // Wishlist Button
         let wishlistbtn = document.createElement("button");
         wishlistbtn.textContent = "Wishlist";
         wishlistbtn.addEventListener("click", function () {
             addWishlist(item);
-            // let customerData = JSON.parse(localStorage.getItem("customersData"));
-            // console.log(customerData);
-            // let customerId = null;
-            // if (customerData != null) {
-            //     customerId = customerData.id;
-            //     console.log("customerId=", customerId);
-            // }
-            // let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
-            // console.log("wishListPerCustomer=", wishListPerCustomer);
-            // let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-            // console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
-            // if (wishlistForThisCustomer == null || wishlistForThisCustomer == undefined) {
-            //     let wishArray = [];
-            //     wishArray.push(item);
-            //     let wishlistForThisCustomer = {
-            //         "customerId": customerId,
-            //         "wishArray": wishArray
-            //     };
-            //     wishListPerCustomer.push(wishlistForThisCustomer);
-            //     localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //     alert("Product added to the wishlist");
-            // } else {
-            //     let wishArray = wishlistForThisCustomer.wishArray;
-            //     console.log("wishArray=", wishArray);
-            //     let matchedProduct = wishArray.filter((ele, i) => ele.id == item.id);
-            //     console.log("matchedProduct=", matchedProduct);
-            //     if (matchedProduct.length != 0) {
-            //         alert("Product already present in the Wishlist");
-            //     } else {
-            //         wishArray.push(item);
-            //         localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //         alert("Product added to the wishlist");
-            //     }
-            // }
+           
         });
 
         // Add to Cart Button
@@ -690,32 +595,7 @@ function showElectronicsDetails(arr) {
         cartbtn.textContent = "Add to Cart";
         cartbtn.addEventListener("click", function () {
             addtoCart(item);
-            // let customerData = JSON.parse(localStorage.getItem("customersData"));
-            // if (!customerData) {
-            //     alert("Please log in to add items to the cart.");
-            //     return;
-            // }
-            // let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            // if (item.stocks == 0) {
-            //     alert("Product Out of Stock");
-            // } else {
-            //     let filteredArray = cartArray.filter((ele, i) => ele.id == item.id);
-            //     if (filteredArray.length == 0) {
-            //         cartArray.push({ ...item, quantity: 1 });
-            //     } else {
-            //         let newArr = cartArray.map((product, i) => {
-            //             if (product.id == item.id) {
-            //                 product["quantity"]++;
-            //                 return product;
-            //             } else {
-            //                 return product;
-            //             }
-            //         });
-            //         cartArray = [...newArr];
-            //     }
-            //     localStorage.setItem("cartProducts", JSON.stringify(cartArray));
-            //     alert("Product added to the cart");
-            // }
+            
         });
 
         card.append(product_image, specificationdiv, wishlistbtn, cartbtn);
@@ -861,7 +741,7 @@ furniture_img.addEventListener("click", async function () {
 // JS code for fetching furniture details
 async function getFurnitureDetails() {
     try {
-        let res = await fetch("https://polarized-concrete-desert.glitch.me/furniture");
+        let res = await fetch(`${baseUrl}/furniture`);
         let data = await res.json();
         return data;
 
@@ -896,88 +776,99 @@ function showFurnitureDetails(arr) {
 
         let specificationdiv = document.createElement("div");
         specificationdiv.setAttribute("class", "specificatdioniv")
-        specificationdiv.append(product_name, price, ratings);
+       
 
-        // Decrease Quantity Button (-)
-        let decreaseBtn = document.createElement("button");
-        decreaseBtn.textContent = "-";
-        decreaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    product["quantity"]--;
-                    item.stocks++;
-                    if (product["quantity"] === 0) {
-                        return null; // Mark for removal
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            }).filter(Boolean); // Remove null items
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
+        // // Decrease Quantity Button (-)
+        // let decreaseBtn = document.createElement("button");
+        // decreaseBtn.textContent = "-";
+        // decreaseBtn.addEventListener("click", function () {
+        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
+        //     let newArr = cartArray.map((product) => {
+        //         if (product.id === item.id) {
+        //             product["quantity"]--;
+        //             item.stocks++;
+        //             if (product["quantity"] === 0) {
+        //                 return null; // Mark for removal
+        //             }
+        //             return product;
+        //         } else {
+        //             return product;
+        //         }
+        //     }).filter(Boolean); // Remove null items
+        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
+        // });
 
-        // Increase Quantity Button (+)
+        // // Increase Quantity Button (+)
+        // let increaseBtn = document.createElement("button");
+        // increaseBtn.textContent = "+";
+        // increaseBtn.addEventListener("click", function () {
+        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
+        //     let newArr = cartArray.map((product) => {
+        //         if (product.id === item.id) {
+        //             if (item.stocks > 0) {
+        //                 product["quantity"]++;
+        //                 item.stocks--;
+        //             } else {
+        //                 alert("No more stock available");
+        //             }
+        //             return product;
+        //         } else {
+        //             return product;
+        //         }
+        //     });
+        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
+        // });
+        let quantityDiv = document.createElement("div");
+      let quantityLabel = document.createElement("span");
+      quantityLabel.textContent = "Quantity: ";
+        let quantity = document.createElement("span");
+        item.quantity = item.quantity || 1;
+        quantity.textContent = item.quantity;
+  
         let increaseBtn = document.createElement("button");
         increaseBtn.textContent = "+";
-        increaseBtn.addEventListener("click", function () {
-            let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-            let newArr = cartArray.map((product) => {
-                if (product.id === item.id) {
-                    if (item.stocks > 0) {
-                        product["quantity"]++;
-                        item.stocks--;
-                    } else {
-                        alert("No more stock available");
-                    }
-                    return product;
-                } else {
-                    return product;
-                }
-            });
-            localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        });
+  
+       
+  // Decrease Quantity
+  let decreaseBtn = document.createElement("button");
+      decreaseBtn.textContent = "-";
+
+  decreaseBtn.addEventListener("click", function () {
+    if (item.quantity > 1) {
+      item.quantity--;
+      quantity.textContent = parseInt(item.quantity);
+      cartArray[i] = item;
+      // localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+      localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+    }
+  });
+
+  // Increase Quantity
+  increaseBtn.addEventListener("click", function () {
+    // console.log("item.quantity=", item.quantity, "item.stocks=", item.stocks);
+    if (item.quantity < item.stocks) {
+      item.quantity = (item.quantity || 1) + 1;
+      quantity.textContent = item.quantity;
+      localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+      //cartArray[i] = item;
+      //localStorage.setItem("cartProducts", JSON.stringify(cartArray));
+      //showCartDetails(cartArray); // Refresh cart
+    } else {
+      alert("Cannot add more than available stock.");
+    }
+  });
+
+  quantityDiv.append(quantityLabel, decreaseBtn, quantity, increaseBtn);
+  specificationdiv.append(product_name, price, ratings, quantityDiv);
+
+
 
         // Wishlist Button
         let wishlistbtn = document.createElement("button");
         wishlistbtn.textContent = "Wishlist";
         wishlistbtn.addEventListener("click", function () {
             addWishlist(item);
-            // let customerData = JSON.parse(localStorage.getItem("customersData"));
-            // console.log(customerData);
-            // let customerId = null;
-            // if (customerData != null) {
-            //     customerId = customerData.id;
-            //     console.log("customerId=", customerId);
-            // }
-            // let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
-            // console.log("wishListPerCustomer=", wishListPerCustomer);
-            // let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-            // console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
-            // if (wishlistForThisCustomer == null || wishlistForThisCustomer == undefined) {
-            //     let wishArray = [];
-            //     wishArray.push(item);
-            //     let wishlistForThisCustomer = {
-            //         "customerId": customerId,
-            //         "wishArray": wishArray
-            //     };
-            //     wishListPerCustomer.push(wishlistForThisCustomer);
-            //     localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //     alert("Product added to the wishlist");
-            // } else {
-            //     let wishArray = wishlistForThisCustomer.wishArray;
-            //     console.log("wishArray=", wishArray);
-            //     let matchedProduct = wishArray.filter((ele, i) => ele.id == item.id);
-            //     console.log("matchedProduct=", matchedProduct);
-            //     if (matchedProduct.length != 0) {
-            //         alert("Product already present in the Wishlist");
-            //     } else {
-            //         wishArray.push(item);
-            //         localStorage.setItem("wishListPerCustomer", JSON.stringify(wishListPerCustomer));
-            //         alert("Product added to the wishlist");
-            //     }
-            // }
+           
         });
 
         // Add to Cart Button

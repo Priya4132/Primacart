@@ -4,6 +4,7 @@
 //     window.location.href = "index.html";
 //   }
 
+import { baseUrl } from "./baseUrl.js";
 
   let admin=JSON.parse(localStorage.getItem("adminData"));
   if(!admin){
@@ -39,7 +40,7 @@ form.addEventListener("submit", async  function(){
 //now push form data to json server
 
 try{
-  await  fetch("https://polarized-concrete-desert.glitch.me/furniture",{
+  await  fetch(`${baseUrl}/furniture`,{
        method:"POST",
        headers:{
            "content-type":"application/json"
@@ -63,7 +64,7 @@ window.onload=async ()=>{
 
 async function getProductDetails() {
   try{
-let res=await fetch("https://polarized-concrete-desert.glitch.me/furniture");
+let res=await fetch(`${baseUrl}/furniture`);
 let data=await res.json();
 return data;
 
@@ -223,7 +224,7 @@ else {
 
 });
 
-card.append(product_image,specificationdiv,wishlistbtn,cartbtn,increaseBtn,decreaseBtn);
+card.append(product_image,specificationdiv);
 let cont=document.getElementById("cont");
 cont.append(card);
 
@@ -236,7 +237,7 @@ let filterbycategory=document.getElementById("filterbycategory");
     filterbycategory.addEventListener("change",async function(){
 
       try{
-        let res=await fetch("https://polarized-concrete-desert.glitch.me/furniture");
+        let res=await fetch(`${baseUrl}/furniture`);
         let data=await res.json();
         // console.log(data)
         if(filterbycategory.value=="clothing"){

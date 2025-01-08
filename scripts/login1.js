@@ -1,3 +1,8 @@
+import { baseUrl } from "./baseUrl.js";
+
+
+
+
 // Ensure elements exist before accessing them to avoid errors
 document.addEventListener("DOMContentLoaded", () => {
     const loginText = document.querySelector(".title-text .login");
@@ -43,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         let userObj = { signup_name, signup_email, signup_pass};
         try {
-            let res=await  fetch("http://localhost:3200/customers");
+            let res=await  fetch(`${baseUrl}/customers`);
             let data= await res.json();
             let user=data.filter((el,i)=> el.email==signup_email);
             console.log(user)
@@ -52,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             //  window.location.href="login.html"
             }
             else{//if user not present push data to json server
-             await fetch("http://localhost:3200/customers" , {
+             await fetch(`${baseUrl}/customers` , {
                  method:"POST",
                  headers: {
                      "content-type":"application/json"
@@ -91,7 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         
         try{
-            let res=await  fetch("http://localhost:3200/customers");
+            let res=await  fetch(`${baseUrl}/customers`);
             let data= await res.json();
            // console.log(data)
             let user=data.filter((el,i)=> el.signup_email==login_email);

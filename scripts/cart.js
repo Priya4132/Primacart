@@ -83,7 +83,7 @@ function showCartDetails() {
       price.textContent = `Price:₹${item.price}`;
 
       let ratings = document.createElement("h4");
-      ratings.textContent = `Ratings: ${item.ratings}`;
+      ratings.textContent = `Ratings: ${item.ratings}⭐`;
 
       let quantityDiv = document.createElement("div");
       let quantityLabel = document.createElement("span");
@@ -127,7 +127,7 @@ function showCartDetails() {
       decreaseBtn.addEventListener("click", function () {
         if (item.quantity > 1) {
           item.quantity--;
-          quantity.textContent = item.quantity;
+          quantity.textContent = parseInt(item.quantity);
           cartArray[i] = item;
           // localStorage.setItem("cartProducts", JSON.stringify(cartArray));
           localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
