@@ -108,6 +108,11 @@ function showCartDetails() {
       specificationdiv.append(product_name, price, ratings, quantityDiv );
       // console.log(totalPrice)
 
+
+      
+
+
+
       // Remove from Cart Button
       let removecartbtn = document.createElement("button");
       removecartbtn.textContent = "Remove From Cart";
@@ -131,6 +136,7 @@ function showCartDetails() {
           cartArray[i] = item;
           // localStorage.setItem("cartProducts", JSON.stringify(cartArray));
           localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+          showCartDetails();
         }
       });
 
@@ -141,6 +147,7 @@ function showCartDetails() {
           item.quantity = (item.quantity || 1) + 1;
           quantity.textContent = item.quantity;
           localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+          showCartDetails()
           //cartArray[i] = item;
           //localStorage.setItem("cartProducts", JSON.stringify(cartArray));
           //showCartDetails(cartArray); // Refresh cart
@@ -149,9 +156,36 @@ function showCartDetails() {
         }
       });
 
-      // Remove from Cart
      
     });
+     // Calculate total items and total price in cart
+     let totalItems = cartArray.reduce((total, item) => total + (item.quantity || 1), 0);
+     let totalPrice = cartArray.reduce(
+       (total, item) => total + item.price * (item.quantity || 1),
+       0
+     );
+ 
+     // Display total items and total price in cart
+     let totalincart=document.getElementById("totalincart");
+     let summaryDiv = document.createElement("div");
+     summaryDiv.style.marginBottom = "20px";
+ 
+     let totalItemsDiv = document.createElement("h4");
+     totalItemsDiv.textContent = `Total Items in Cart: ${totalItems}`;
+ 
+     let totalPriceDiv = document.createElement("h4");
+     totalPriceDiv.textContent = `Total Price: ₹${totalPrice.toFixed(2)}`;
+ 
+     summaryDiv.append(totalItemsDiv, totalPriceDiv);
+     totalincart.appendChild(summaryDiv);
+ 
+//     //displaying total items present in the cart
+
+// let totalItems = cartArray.reduce((total, item) => total + (item.quantity || 1), 0);
+// let totalItemsDiv = document.createElement("div");
+// totalItemsDiv.textContent = `Total Items in Cart: ${totalItems}`;
+// totalincart.appendChild(totalItemsDiv);
+
   }
 }
    
@@ -212,10 +246,10 @@ function showCartDetails() {
       checkoutFn(selectedPaymentMethod, addressfilled, pincodefilled);
     })
     // Display total price
-    // let totalprice=document.getElementById("totalprice");
-    // let totalDiv = document.createElement("div");
-    // totalDiv.textContent = `Total Price: ₹${totalPrice}`;
-    // totalprice.appendChild(totalDiv);
+    let totalprice=document.getElementById("totalprice");
+    let totalDiv = document.createElement("div");
+    totalDiv.textContent = `Total Price: ₹${totalPrice}`;
+    totalprice.appendChild(totalDiv);
 
     // Checkout Button
     //   let checkoutBtn = document.createElement("button");

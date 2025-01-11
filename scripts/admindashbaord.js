@@ -89,142 +89,24 @@ function showProductDetails(arr){
         product_name.textContent=item.product_name;
         let price=document.createElement("h4");
         price.textContent=`Price:${item.price}`;
+        let stocks=document.createElement("h4");
+        stocks.textContent=`Stocks:${item.stocks}`;
         let ratings=document.createElement("h4");
         ratings.textContent=`Ratings:${item.ratings}⭐`;
      
         let product_image=document.createElement("img");
         product_image.src=item.product_image;
         let specificationdiv=document.createElement("div");
-        specificationdiv.append(product_name,price,ratings)
+        specificationdiv.append(product_name,price,ratings,stocks)
+// delete button
+let deletebtn=document.createElement("button");
+deletebtn.textContent="Delete Product";
+deletebtn.setAttribute("id","delete")
+deletebtn.addEventListener("click", function(){
+  deleteFn(item,i);
+})
 
-
-        // Decrease Quantity Button
-      let decreaseBtn = document.createElement("button");
-      decreaseBtn.textContent = "Decrease Quantity";
-      decreaseBtn.addEventListener("click", function () {
-        let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        let newArr = cartArray.map((product) => {
-          if (product.id === item.id) {
-            product["quantity"]--;
-            item.stocks++;
-            if (product["quantity"] === 0) {
-              return null; // Mark for removal
-            }
-            return product;
-          } else {
-            return product;
-          }
-        }).filter(Boolean); // Remove null items
-        localStorage.setItem("cartProducts", JSON.stringify(newArr));
-      });
-
-         // Increase Quantity Button
-      let increaseBtn = document.createElement("button");
-      increaseBtn.textContent = "Increase Quantity";
-      increaseBtn.addEventListener("click", function () {
-        let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        let newArr = cartArray.map((product) => {
-          if (product.id === item.id) {
-            if (item.stocks > 0) {
-              product["quantity"]++;
-              item.stocks--;
-            } else {
-              alert("No more stock available");
-            }
-            return product;
-          } else {
-            return product;
-          }
-        });
-        localStorage.setItem("cartProducts", JSON.stringify(newArr));
-      });
-
-
-    //wishlist button    
-
-let wishlistbtn=document.createElement("button");
-wishlistbtn.textContent="Wishlist";
-wishlistbtn.addEventListener("click", function(){
-let wishArray = JSON.parse(localStorage.getItem("wishlistedProducts")) || [];//fetching wishlisted products from local storage if already present or an empty array
-let filteredArray = wishArray.filter((ele, i) => ele.id == item.id);
-if (filteredArray.length == 0){
-    wishArray.push(item);
-    localStorage.setItem("wishlistedProducts", JSON.stringify(wishArray));
-
-    alert("Product added to the wishlist");
-}
-else{
-    alert("Product already present in the Wishlist");
-}
-
-
-
-
-});
-//add to cart
-
-
-
-
-
-
-
-
-
-
-
-//add to cart button
-let cartbtn = document.createElement("button");
-cartbtn.textContent = "Add to Cart";
-cartbtn.addEventListener("click", function () {
-// location.reload(); // Refresh to reflect changess
-let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-//check wether product is present in the cart
-if (item.stocks==0){
-    alert("product Out of Stock");
-}
-else{
-
-
-let filteredArray = cartArray.filter((ele, i) => ele.id == item.id);
-// console.log("fa", filteredArray)
-// if filteredArray length == 1, item is prsent in the cart else not present
-if (filteredArray.length == 0) {
-    cartArray.push({ ...item, quantity: 1 });//spreading of old onject and adding a new key
-    //console.log("ca", cartArray)
-}
-else {
-     // if filteredArray length == 1, item is prsent in the cart
-     // just update the quantity key and store in localStoarge
-   // console.log("ca in the else", cartArray)
-    //console.log(el["quantity"]);
-    let newArr = cartArray.map((product, i) => {
-        if (product.id == item.id) {
-            product["quantity"]++
-            //console.log( item["quantity"])
-            return product
-            //return true;
-
-        }
-        else {
-            return product;
-        }
-    })
-    //console.log(newArr)
-    cartArray = [...newArr]
-}
-
-
-
-    //console.log("before pushing", cartArray)
-    localStorage.setItem("cartProducts", JSON.stringify(cartArray));
-    alert("Product added to the cart");
-
-}
-
-});
-
-card.append(product_image,specificationdiv);
+card.append(product_image,specificationdiv,deletebtn);
 let cont=document.getElementById("cont");
 cont.append(card);
 
@@ -271,4 +153,24 @@ let filterbycategory=document.getElementById("filterbycategory");
 
    
 
+// delete product function
+async function deleteFn(item,i){
+  if (confirm("Are you sure to delete the product??")){
 
+ 
+  let productId=item.id;
+  try{
+await fetch(`${baseUrl}/furniture/${productId}`, {
+  method:"DELETE"
+
+});
+alert("Product deleted sucessfully");
+getProductDetails();
+  }
+  catch(err){
+    console.log(err);
+
+  }
+}
+
+}

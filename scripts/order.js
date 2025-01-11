@@ -54,6 +54,7 @@ window.onload = async () => {
         // console.log("hi",orderForThisCustomer)
         let ordersDiv = document.getElementById("orders");
         let elementCustomerTitle = document.createElement("h1");
+        elementCustomerTitle.setAttribute("class","customertitle")
         elementCustomerTitle.textContent = `Hello ${customerData.signup_name}, thanks for choosing Primacart` 
         ordersDiv.append(elementCustomerTitle);
         

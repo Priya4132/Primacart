@@ -118,6 +118,10 @@ function showWishlistProductDetails(arr) {
 //add to cart function
 
 function addtoCart(product) {
+    if(product.stocks==0){
+        alert("Item Out of Stock , We will notify you once product will be in stock");
+    }
+    else{
     let customerData = JSON.parse(localStorage.getItem("customersData"));
     // console.log(customerData);
     let customerId = null;
@@ -152,6 +156,7 @@ function addtoCart(product) {
             alert("Product added to the Cart");
         }
     }
+}
 }
 
 

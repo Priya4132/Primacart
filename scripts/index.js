@@ -43,22 +43,7 @@ nextButton.addEventListener('click', () => {
 
 
 
-// const adminUsername = "admin";
-// const adminPassword = "admin123";
 
-// // Redirect to dashboard if already logged in
-// if (localStorage.getItem("username") && localStorage.getItem("password")) {
-//     if (
-//         localStorage.getItem("username") === adminUsername &&
-//         localStorage.getItem("password") === adminPassword
-//     ) {
-//         window.location.href = "dashboard.html";
-//     } else {
-//         // Clear incorrect credentials
-//         localStorage.removeItem("username");
-//         localStorage.removeItem("password");
-//     }
-// }
 
 
 //JS code for category wise displaying clothing category data
@@ -493,49 +478,7 @@ function showElectronicsDetails(arr) {
 
         let specificationdiv = document.createElement("div");
         specificationdiv.setAttribute("class", "specificatdioniv")
-        // specificationdiv.append(product_name, price, ratings);
-
-        // // Decrease Quantity Button (-)
-        // let decreaseBtn = document.createElement("button");
-        // decreaseBtn.textContent = "-";
-        // decreaseBtn.addEventListener("click", function () {
-        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        //     let newArr = cartArray.map((product) => {
-        //         if (product.id === item.id) {
-        //             product["quantity"]--;
-        //             item.stocks++;
-        //             if (product["quantity"] === 0) {
-        //                 return null; // Mark for removal
-        //             }
-        //             return product;
-        //         } else {
-        //             return product;
-        //         }
-        //     }).filter(Boolean); // Remove null items
-        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        // });
-
-        // // Increase Quantity Button (+)
-        // let increaseBtn = document.createElement("button");
-        // increaseBtn.textContent = "+";
-        // increaseBtn.addEventListener("click", function () {
-        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        //     let newArr = cartArray.map((product) => {
-        //         if (product.id === item.id) {
-        //             if (item.stocks > 0) {
-        //                 product["quantity"]++;
-        //                 item.stocks--;
-        //             } else {
-        //                 alert("No more stock available");
-        //             }
-        //             return product;
-        //         } else {
-        //             return product;
-        //         }
-        //     });
-        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        // });
-
+        
         let quantityDiv = document.createElement("div");
         let quantityLabel = document.createElement("span");
         quantityLabel.textContent = "Quantity: ";
@@ -778,46 +721,7 @@ function showFurnitureDetails(arr) {
         specificationdiv.setAttribute("class", "specificatdioniv")
        
 
-        // // Decrease Quantity Button (-)
-        // let decreaseBtn = document.createElement("button");
-        // decreaseBtn.textContent = "-";
-        // decreaseBtn.addEventListener("click", function () {
-        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        //     let newArr = cartArray.map((product) => {
-        //         if (product.id === item.id) {
-        //             product["quantity"]--;
-        //             item.stocks++;
-        //             if (product["quantity"] === 0) {
-        //                 return null; // Mark for removal
-        //             }
-        //             return product;
-        //         } else {
-        //             return product;
-        //         }
-        //     }).filter(Boolean); // Remove null items
-        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        // });
-
-        // // Increase Quantity Button (+)
-        // let increaseBtn = document.createElement("button");
-        // increaseBtn.textContent = "+";
-        // increaseBtn.addEventListener("click", function () {
-        //     let cartArray = JSON.parse(localStorage.getItem("cartProducts")) || [];
-        //     let newArr = cartArray.map((product) => {
-        //         if (product.id === item.id) {
-        //             if (item.stocks > 0) {
-        //                 product["quantity"]++;
-        //                 item.stocks--;
-        //             } else {
-        //                 alert("No more stock available");
-        //             }
-        //             return product;
-        //         } else {
-        //             return product;
-        //         }
-        //     });
-        //     localStorage.setItem("cartProducts", JSON.stringify(newArr));
-        // });
+        
         let quantityDiv = document.createElement("div");
       let quantityLabel = document.createElement("span");
       quantityLabel.textContent = "Quantity: ";
@@ -890,17 +794,26 @@ function showFurnitureDetails(arr) {
 
 //add to cart function
 function addtoCart(product) {
+    // console.log(product.stocks);
+    if(product.stocks==0){
+        alert("Item Out of Stock , We will notify you once product will be in stock");
+    }
+    else{
+
+  
+
+    
     let customerData = JSON.parse(localStorage.getItem("customersData"));
-    console.log(customerData);
+    // console.log(customerData);
     let customerId = null;
     if (customerData != null) {
         customerId = customerData.id;
-        console.log("customerId=", customerId);
+        // console.log("customerId=", customerId);
     }
     let cartPerCustomer = JSON.parse(localStorage.getItem("cartPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
-    console.log("cartPerCustomer=", cartPerCustomer);
+    // console.log("cartPerCustomer=", cartPerCustomer);
     let cartForThisCustomer = cartPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-    console.log("cartForThisCustomer=", cartForThisCustomer);
+    // console.log("cartForThisCustomer=", cartForThisCustomer);
     if (cartForThisCustomer == null || cartForThisCustomer == undefined) {
         let cartArray = [];
         cartArray.push(product);
@@ -913,17 +826,18 @@ function addtoCart(product) {
         alert("Product added to the cart");
     } else {
         let cartArray = cartForThisCustomer.cartArray;
-        console.log("cartArray=", cartArray);
+        // console.log("cartArray=", cartArray);
         let matchedProduct = cartArray.filter((ele, i) => ele.id == product.id);
-        console.log("matchedProduct=", matchedProduct);
+        // console.log("matchedProduct=", matchedProduct);
         if (matchedProduct.length != 0) {
-            alert("Product already present in the Cart, Kindly visit the Cart Page to increase the quantity");
+            alert("Product already present in the Cart, Kindly increase the quantity");
         } else {
             cartArray.push(product);
             localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
             alert("Product added to the Cart");
         }
     }
+}
 }
 
 
@@ -936,9 +850,9 @@ function addWishlist(product) {
         console.log("customerId=", customerId);
     }
     let wishListPerCustomer = JSON.parse(localStorage.getItem("wishListPerCustomer")) || [];// Fetching wishlisted products from local storage if already present or an empty array
-    console.log("wishListPerCustomer=", wishListPerCustomer);
+    // console.log("wishListPerCustomer=", wishListPerCustomer);
     let wishlistForThisCustomer = wishListPerCustomer.filter((ele, i) => ele.customerId == customerId)[0];
-    console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
+    // console.log("wishlistForThisCustomer=", wishlistForThisCustomer);
     if (wishlistForThisCustomer == null || wishlistForThisCustomer == undefined) {
         let wishArray = [];
         wishArray.push(product);
@@ -951,9 +865,9 @@ function addWishlist(product) {
         alert("Product added to the wishlist");
     } else {
         let wishArray = wishlistForThisCustomer.wishArray;
-        console.log("wishArray=", wishArray);
+        // console.log("wishArray=", wishArray);
         let matchedProduct = wishArray.filter((ele, i) => ele.id == product.id);
-        console.log("matchedProduct=", matchedProduct);
+        // console.log("matchedProduct=", matchedProduct);
         if (matchedProduct.length != 0) {
             alert("Product already present in the Wishlist");
         } else {

@@ -207,18 +207,30 @@ justify-content: center;
 
  }
  #cart_cont{
-    margin-left: 10%;
+    /* margin-left: 10%; */
     width:70%;
     display:flex;
      padding: 30px;
     flex-direction: column;
     /* align-items: center; */
  }
+ #stats{
+    display: flex;
+    justify-content: center;
+    gap:50px;
+    align-items: start;
+    margin-right:10%;
+ }
+ #totalincart{
+    /* background-color: rgb(231, 238, 238); */
+    text-align: center;
+    padding:20px;
+ }
  #checkoutdiv{
-    margin-top:50px;
+    /* margin-top:50px; */
     background-color: rgb(231, 238, 238);
     width: 50%;
-    height: 50%;
+    height: fit-content;
     padding: 30px;
     /* margin: auto; */
  }
@@ -227,7 +239,7 @@ justify-content: center;
  }
  #cart_content{
 display: flex;
-justify-content: space-around;
+/* justify-content: space-around; */
  }
  #checkoutdiv input{
     height: 30px;
@@ -238,6 +250,12 @@ justify-content: space-around;
 
 .hl{
     border-bottom: 1px solid gray;
+}
+
+
+/* order page styling  */
+.customertitle{
+    color:blueviolet;
 }
 
 /* media query */
@@ -256,6 +274,9 @@ justify-content: space-around;
     }
     #furniture_cont, #electronics_cont, #clothing_cont,#wishlist_cont{
         grid-template-columns: repeat(2,1fr);
+    }
+    #prima_search{
+        display: none;
     }
 }
 
