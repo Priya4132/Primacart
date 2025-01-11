@@ -69,7 +69,7 @@ function showCartDetails() {
     let cart_cont = document.getElementById("cart_cont");
     cart_cont.innerHTML = "";
 
-    // let totalPrice = 0;
+    
     cartArray.map((item, i) => {
 
       // totalPrice = totalPrice + item.price; // Calculate total price
@@ -112,17 +112,17 @@ function showCartDetails() {
       
 
 
+// Remove from Cart Button
+let removecartbtn = document.createElement("button");
+removecartbtn.textContent = "Remove From Cart";
 
-      // Remove from Cart Button
-      let removecartbtn = document.createElement("button");
-      removecartbtn.textContent = "Remove From Cart";
-
-    removecartbtn.addEventListener("click", function () {
-      cartArray.splice(i, 1);
-      localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
-      alert("Items has been removed form the Cart");
-      showCartDetails(); // Refresh cart
-    });
+removecartbtn.addEventListener("click", function () {
+cartArray.splice(i, 1);
+localStorage.setItem("cartPerCustomer", JSON.stringify(cartPerCustomer));
+alert("Items has been removed form the Cart");
+showCartDetails(); // Refresh cart
+});
+      
 
       card.append(product_image, specificationdiv, removecartbtn);
       cart_cont.append(card);
@@ -168,7 +168,7 @@ function showCartDetails() {
      // Display total items and total price in cart
      let totalincart=document.getElementById("totalincart");
      let summaryDiv = document.createElement("div");
-     summaryDiv.style.marginBottom = "20px";
+    
  
      let totalItemsDiv = document.createElement("h4");
      totalItemsDiv.textContent = `Total Items in Cart: ${totalItems}`;
@@ -179,12 +179,7 @@ function showCartDetails() {
      summaryDiv.append(totalItemsDiv, totalPriceDiv);
      totalincart.appendChild(summaryDiv);
  
-//     //displaying total items present in the cart
 
-// let totalItems = cartArray.reduce((total, item) => total + (item.quantity || 1), 0);
-// let totalItemsDiv = document.createElement("div");
-// totalItemsDiv.textContent = `Total Items in Cart: ${totalItems}`;
-// totalincart.appendChild(totalItemsDiv);
 
   }
 }
@@ -237,6 +232,9 @@ function showCartDetails() {
     })
     payment.appendChild(paymentLabel)
 
+
+
+    
 
     let checkoutbtn = document.getElementById("checkoutbtn")
     checkoutbtn.addEventListener("click", function () {
